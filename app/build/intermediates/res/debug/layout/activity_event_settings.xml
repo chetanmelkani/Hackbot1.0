@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <CheckBox
+        android:id="@+id/chkAudio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chk_Audio"/>
+
+
+    <CheckBox
+        android:id="@+id/chk3G"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chk_3G"
+        android:checked="true" />
+
+
+
+    <CheckBox
+        android:id="@+id/chkBluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chk_Bluetooth" />
+
+
+    <Button
+        android:id="@+id/btnDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_ok" />
+
+</LinearLayout>
+<!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/layout/activity_event_settings.xml -->
