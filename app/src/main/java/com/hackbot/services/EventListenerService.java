@@ -31,7 +31,8 @@ public class EventListenerService extends Service {
 	
 	private DBHelper dbHelper;
 	
-	private final IBinder mBinder = new LocalBinder(); 
+	private final IBinder mBinder = new LocalBinder();
+	private final static String LOG = EventListenerService.class.getSimpleName();
 
 	public class LocalBinder extends Binder { 
 		public EventListenerService getService() { 
@@ -43,19 +44,21 @@ public class EventListenerService extends Service {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-
+		Log.d(LOG, "in onBind");
 		return mBinder;
 	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Log.d(LOG, "in onCreate");
 		dbHelper= DBHelper.getInstance(this);
 	}
 
 	@Override
     public void onDestroy() {
         super.onDestroy();
+		Log.d(LOG, "in onDestroy");
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
         algo.destroy();
         for (BroadcastReceiver receiver : receivers)
@@ -67,7 +70,7 @@ public class EventListenerService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		
+		Log.d(LOG, "in onStartCommand");
 		Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
 		algo = new Algo (this);
 		receiverAudio = new EventBroadcastAudioReceiver();
@@ -78,8 +81,8 @@ public class EventListenerService extends Service {
 	}
 	
 	public void setBroadCastReciever(List<Events> events)
-	{	
-		
+	{
+		Log.d(LOG, "in setBroadCastReciever");
 		for (Events event : events)
 		{
 			Log.d("listener", "Event Id got :"+event.getId());
@@ -140,6 +143,7 @@ public class EventListenerService extends Service {
 
 	private void handleUnregisterOperation(int eventId)
 	{
+		Log.d(LOG, "in handleUnregisterOperation");
 		if (eventId == EventIdConstant.AUDIO_OFF)
 		{
 		algo.deleteEvents(Enums.EventIdConstant.AUDIO_ON);

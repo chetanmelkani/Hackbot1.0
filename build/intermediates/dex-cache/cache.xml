@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/chetanmelkani/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.6/a7db7ea5f7bb18a1cbd9f24edd0e666504800be/aspectjrt-1.8.6.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0a7db7ea5f7bb18a1cbd9f24edd0e666504800be">
+        <dex dex="/Users/chetanmelkani/Git/Hackbot/app/build/intermediates/pre-dexed/debug/aspectjrt-1.8.6-314d2f5e18ebe48469ed3e47fa1115e9ef71904e.jar" />
+    </item>
+
+</items>

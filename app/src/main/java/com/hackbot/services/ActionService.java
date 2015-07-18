@@ -20,6 +20,7 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 public class ActionService extends Service {
@@ -28,6 +29,8 @@ public class ActionService extends Service {
 	private List<TrackedEvent> trackedEvents = new ArrayList<TrackedEvent>();
 	private final IBinder mBinder = new LocalBinder();
 	private DBHelper dbHelper;
+
+	private final static String LOG = ActionService.class.getSimpleName();
 
 	class TrackedEvent {
 		int id;
@@ -40,17 +43,20 @@ public class ActionService extends Service {
 		public ActionService getService() {
 			// Return this instance of LocalService so clients can call public
 			// methods
+			Log.d(LOG, "in getService");
 			return ActionService.this;
 		}
 	}
 
 	@Override
 	public void onCreate() {
+		Log.d(LOG, "in onCreate");
 
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.d(LOG, "in onStartCommand");
 
 		Toast.makeText(this, "Action Service Started", Toast.LENGTH_LONG)
 				.show();
@@ -114,6 +120,7 @@ public class ActionService extends Service {
 	}
 
 	private void audioChange(int valueSet) {
+		Log.d(LOG, "in audioChange");
 		AudioManager am;
 		am = (AudioManager) getBaseContext().getSystemService(
 				Context.AUDIO_SERVICE);
@@ -124,6 +131,7 @@ public class ActionService extends Service {
 	}
 
 	private void bluetoothChange(int valueSet) {
+		Log.d(LOG, "in bluetoothChange");
 		BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
 		if (valueSet == 1)
 			bluetooth.enable();
@@ -132,6 +140,7 @@ public class ActionService extends Service {
 	}
 
 	private void dataChange(int valueSet) {
+		Log.d(LOG, "in dataChange");
 		ConnectivityManager dataManager;
 		boolean value = false;
 		if (valueSet == 1)
@@ -162,6 +171,7 @@ public class ActionService extends Service {
 	}
 
 	public void fillListenedEventList(HackBotEvent updatedEvent) {
+		Log.d(LOG, "in fillListenedEventList");
 		boolean isNew = true;
 		List<Integer> deletedIds = new ArrayList<Integer>();
 		if (updatedEvent != null && updatedEvent.getId() != 0) {
@@ -219,6 +229,7 @@ public class ActionService extends Service {
 	}
 
 	public void fillDummyData() {
+		Log.d(LOG, "in fillDummyData");
 		HackBotEvent event = new HackBotEvent();
 		event.setId(1);
 		event.setDuration(30);
@@ -238,16 +249,21 @@ public class ActionService extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		Log.d(LOG, "in onDestroy");
 		Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
+
+		Log.d(LOG, "in onBind");
 		return mBinder;
 	}
 
 	@Override
 	public boolean onUnbind(Intent intent) {
+
+		Log.d(LOG, "in onUnbind");
 		return true;
 	}
 }

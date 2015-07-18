@@ -5,9 +5,6 @@ import java.util.Date;
 
 import com.hackbot.utility.Constants;
 
-/**
- * Created by SwatiSh on 4/13/2015.
- */
 public class HackBotEvent
 {
 

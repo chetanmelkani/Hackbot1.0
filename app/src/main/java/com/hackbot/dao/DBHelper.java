@@ -15,9 +15,6 @@ import com.hackbot.entity.HackBotEvent;
 import com.hackbot.utility.Constants;
 
 
-/**
- * Created by SwatiSh on 4/8/2015.
- */
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String LOG = "DBHelper";
@@ -107,6 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Use the application context, which will ensure that you 
         // don't accidentally leak an Activity's context.
+        Log.d(LOG, "in getInstance");
         if (mInstance == null) {
             mInstance = new DBHelper(ctx.getApplicationContext());
         }
@@ -115,7 +113,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(LOG, "onCreate enter");
+        Log.d(LOG, "in onCreate");
         db.execSQL(CREATE_HACK_BOT_EVENTS);
         db.execSQL(CREATE_EVENTS_TRACKED);
         db.execSQL(CREATE_EVENTS);
@@ -124,7 +122,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d(LOG, "onUpgrade enter");
+        Log.d(LOG, "in onUpgrade");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HACK_BOT_EVENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS_TRACKED);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
@@ -134,6 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public HackBotEvent getHbeObject(long eventId, long timeTriggered) {
+        Log.d(LOG, "in getHbeObject");
 
         SQLiteDatabase db = this.getReadableDatabase();
         long timeInMinutes = convertLongTimeToMinutes(timeTriggered);
@@ -154,14 +153,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public Integer deleteEvent(long id, long time, long range) {
-        Log.d(LOG, "deleteEvent enter");
+        Log.d(LOG, "in deleteEvent");
         SQLiteDatabase db = this.getWritableDatabase();
         //return db.query(EVENTS_TABLE_NAME, null, " BETWEEN ? AND ?", new String[] {Long.toString(time - range), Long.toString(time + range)}, null, null, null, null);
         return 0;
     }
 
     private HackBotEvent parseRecord(Cursor cursor) {
-        Log.d(LOG, "parseRecord enter");
+        Log.d(LOG, "in parseRecord");
         if (cursor.moveToFirst()) {
             HackBotEvent event = new HackBotEvent();
             event.setId(cursor.getInt(0));
@@ -188,7 +187,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //EventsTracked Table
     public EventsTracked getEventTrackedById(int eventId) {
-        Log.d(LOG, "getEventTrackedById enter");
+        Log.d(LOG, "in getEventTrackedById");
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_EVENTS_TRACKED + " WHERE "
@@ -217,7 +216,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void deleteAllEventsByEventId(int eventId) {
 
-        Log.d(LOG, "deleteAllEventsByEventId enter");
+        Log.d(LOG, "in deleteAllEventsByEventId");
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_HACK_BOT_EVENTS, KEY_EVENTS_ID + " = ?",
@@ -232,7 +231,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     public HackBotEvent getHbeById(int id) {
-        Log.d(LOG, "getHbeById enter");
+        Log.d(LOG, "in getHbeById");
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_HACK_BOT_EVENTS + " WHERE "
@@ -250,7 +249,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public int updateHackBotEvent(HackBotEvent hbe) {
-        Log.d(LOG, "updateHackBotEvent enter");
+        Log.d(LOG, "in updateHackBotEvent");
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -277,6 +276,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private long convertLongTimeToMinutes(long time) {
+        Log.d(LOG, "in convertLongTimeToMinutes");
         Date d = new Date(time);
         Calendar c = Calendar.getInstance();
         c.setTime(d);
@@ -294,7 +294,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     public int isNewEvent(int eventId, long timeTriggered) {
-        Log.d(LOG, "isNewEvent enter");
+        Log.d(LOG, "in isNewEvent");
         SQLiteDatabase db = this.getReadableDatabase();
 
         //check if this event id is already in events tracking table
@@ -330,7 +330,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public int isEventToLearn(int eventId, long timeTriggered) {
 
-        Log.d(LOG, "isEventToLearn enter");
+        Log.d(LOG, "in isEventToLearn");
         SQLiteDatabase db = this.getReadableDatabase();
 
         EventsTracked et = getEventTrackedById(eventId);
@@ -361,7 +361,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     public long insertToHackBotEvents(HackBotEvent hbe) {
-        Log.d(LOG, "insertToHackBotEvents enter");
+        Log.d(LOG, "in insertToHackBotEvents");
         printTheHBETest(hbe);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -412,7 +412,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //EVENTS_RUNNING Table
 
     /**
-     * @param er HackBotEvent uniqueId and the time it started
+     * @param hbeId uniqueId and the time it started
      * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public int insertEventsRunning(int hbeId, long timeStarted) {
@@ -435,7 +435,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * delete this entry from the eventsRunning table for the eventId
      * at any moment this table will have only one entry for for any eventId
      *
-     * @param hbeId
+     * @param id
      * @return
      */
     public int deleteEventRunning(int id) {
@@ -464,8 +464,6 @@ public class DBHelper extends SQLiteOpenHelper {
      * returns 1 if the event is currently running else 0, this takes as input only those event
      *
      * @param eventId
-     * @param timeTriggered
-     * @param range
      * @return
      */
     public int isEventRunning(int eventId) {            // get if this event is currently running or not
