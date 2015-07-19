@@ -26,6 +26,7 @@ public class EventListenerService extends Service {
 	EventBroadcastAudioReceiver receiverAudio;
 	EventBroadcastDataReceiver receiverData;
 	EventBroadcastBluetoothReceiver receiverBluetooth;
+
 	private static List<BroadcastReceiver> receivers = new ArrayList<BroadcastReceiver>();
 	private Algo algo ;
 	

@@ -14,7 +14,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="21" />
 
     <application
         android:allowBackup="true"
@@ -52,6 +52,7 @@
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
             </intent-filter>            
         </receiver>
+
         <service android:name="com.hackbot.services.EventListenerService" />
         <service android:name="com.hackbot.services.ActionService" />
     </application>

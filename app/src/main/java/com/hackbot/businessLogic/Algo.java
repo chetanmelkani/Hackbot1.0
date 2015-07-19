@@ -329,6 +329,7 @@ public class Algo {
 	}
 	
 	public int isLearned(HackBotEvent hbe){
+
 		Log.d(LOG,"setLearned " + hbe.getEventId());
 		if(hbe.getDaysFulfilled()==1 && hbe.getProbability()>=75)
 			return 1;
@@ -362,8 +363,7 @@ public class Algo {
 
 
         @Override 
-        public void onServiceConnected(ComponentName className, 
-                                       IBinder service) { 
+        public void onServiceConnected(ComponentName className, IBinder service) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance 
         	ActionService.LocalBinder binder = (ActionService.LocalBinder) service; 
             mService = binder.getService(); 
@@ -373,7 +373,8 @@ public class Algo {
 
         @Override 
         public void onServiceDisconnected(ComponentName arg0) { 
-            mBound = false; 
+
+			mBound = false;
         } 
     }; 
     

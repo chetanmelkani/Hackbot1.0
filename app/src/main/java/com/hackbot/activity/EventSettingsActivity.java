@@ -62,13 +62,17 @@ public class EventSettingsActivity extends Activity {
                 //Audio checkbox
                 int isAudioChecked = 0;
                 if (chkAudio.isChecked()) {
+                    Log.d(LOG, "in chkAudio.isChecked()");
                     isAudioChecked = 1;
                     eventList.add(new Events(EventIdConstant.AUDIO_ON, "AUDIO_ON", isAudioChecked));
                 } else {
                     eventList.add(new Events(EventIdConstant.AUDIO_OFF, "AUDIO_OFF", isAudioChecked));
-                }                //3G checkbox
+                }
+
+                //3G checkbox
                 int is3GChecked = 0;
                 if (chk3G.isChecked()) {
+                    Log.d(LOG, "in chk3G.isChecked()");
                     is3GChecked = 1;
                     eventList.add(new Events(EventIdConstant.DATA_ON, "3G_ON", is3GChecked));
                 } else {
@@ -78,6 +82,7 @@ public class EventSettingsActivity extends Activity {
                 //Bluetooth checkbox
                 int isBluetoothChecked = 0;
                 if (chkBluetooth.isChecked()) {
+                    Log.d(LOG, "in chkBluetooth.isChecked()");
                     isBluetoothChecked = 1;
                     eventList.add(new Events(EventIdConstant.BLUETOOTH_ON, "BLUETOOTH_ON", isBluetoothChecked));
                 } else {
@@ -86,13 +91,11 @@ public class EventSettingsActivity extends Activity {
 
                 StringBuffer result = new StringBuffer();
                 result.append("IPhone check : ").append(chkAudio.isChecked());
-                result.append("\nAndroid check : ").append(
-                        chk3G.isChecked());
-                result.append("\nWindows Mobile check :").append(
-                        chkBluetooth.isChecked());
+                result.append("\nAndroid check : ").append(chk3G.isChecked());
+                result.append("\nWindows Mobile check :").append(chkBluetooth.isChecked());
 
-                Toast.makeText(EventSettingsActivity.this, result.toString(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(EventSettingsActivity.this, result.toString(),Toast.LENGTH_LONG).show();
+
                 // Calling Listener Service class
                 if (mBound)
                     mService.setBroadCastReciever(eventList);
@@ -112,8 +115,7 @@ public class EventSettingsActivity extends Activity {
 
 
         @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
+        public void onServiceConnected(ComponentName className, IBinder service) {
             Log.d(LOG, "in onServiceConnected");
             // We've bound to LocalService, cast the IBinder and get LocalService instance 
             EventListenerService.LocalBinder binder = (EventListenerService.LocalBinder) service;

@@ -25,9 +25,11 @@ import android.widget.Toast;
 
 public class ActionService extends Service {
 
-	private List<HackBotEvent> eventsListened = new ArrayList<HackBotEvent>();
-	private List<TrackedEvent> trackedEvents = new ArrayList<TrackedEvent>();
+	private List<HackBotEvent> eventsListened = new ArrayList<>();
+	private List<TrackedEvent> trackedEvents = new ArrayList<>();
+
 	private final IBinder mBinder = new LocalBinder();
+
 	private DBHelper dbHelper;
 
 	private final static String LOG = ActionService.class.getSimpleName();
@@ -41,8 +43,7 @@ public class ActionService extends Service {
 
 	public class LocalBinder extends Binder {
 		public ActionService getService() {
-			// Return this instance of LocalService so clients can call public
-			// methods
+			// Return this instance of LocalService so clients can call public methods
 			Log.d(LOG, "in getService");
 			return ActionService.this;
 		}
