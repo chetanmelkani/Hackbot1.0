@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.example.hackbot.R;
+import com.facebook.stetho.Stetho;
 import com.hackbot.entity.EventIdConstant;
 import com.hackbot.entity.Events;
 import com.hackbot.services.ActionService;
@@ -41,6 +42,14 @@ public class EventSettingsActivity extends Activity {
         setContentView(R.layout.activity_event_settings);
         startService();
         addListenerOnButton();
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(
+                                Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(
+                                Stetho.defaultInspectorModulesProvider(this))
+                        .build());
 
     }
 

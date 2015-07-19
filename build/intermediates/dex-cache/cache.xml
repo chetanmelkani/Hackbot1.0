@@ -8,5 +8,26 @@
         sha1="0a7db7ea5f7bb18a1cbd9f24edd0e666504800be">
         <dex dex="/Users/chetanmelkani/Git/Hackbot/app/build/intermediates/pre-dexed/debug/aspectjrt-1.8.6-314d2f5e18ebe48469ed3e47fa1115e9ef71904e.jar" />
     </item>
+    <item
+        jar="/Users/chetanmelkani/.gradle/caches/modules-2/files-2.1/com.facebook.stetho/stetho/1.1.1/ab1142c5adfa474e7494cba19fd9fc6e73207960/stetho-1.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ab1142c5adfa474e7494cba19fd9fc6e73207960">
+        <dex dex="/Users/chetanmelkani/Git/Hackbot/app/build/intermediates/pre-dexed/debug/stetho-1.1.1-d17d324af58fed76338e71b554d17dbbb4bf95f3.jar" />
+    </item>
+    <item
+        jar="/Users/chetanmelkani/.gradle/caches/modules-2/files-2.1/commons-cli/commons-cli/1.2/2bf96b7aa8b611c177d329452af1dc933e14501c/commons-cli-1.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2bf96b7aa8b611c177d329452af1dc933e14501c">
+        <dex dex="/Users/chetanmelkani/Git/Hackbot/app/build/intermediates/pre-dexed/debug/commons-cli-1.2-4f6f55fcbc28c00e8fd26109ddbe6553bd95834f.jar" />
+    </item>
+    <item
+        jar="/Users/chetanmelkani/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/2.0.1/516c03b21d50a644d538de0f0369c620989cd8f0/jsr305-2.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="516c03b21d50a644d538de0f0369c620989cd8f0">
+        <dex dex="/Users/chetanmelkani/Git/Hackbot/app/build/intermediates/pre-dexed/debug/jsr305-2.0.1-b41a22ba55ec4a16d568c81bb1ab3b1e066c1e27.jar" />
+    </item>
 
 </items>
