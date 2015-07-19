@@ -175,6 +175,15 @@ public class EventSettingsActivity extends Activity {
         stopService(new Intent(getBaseContext(), EventListenerService.class));
         stopService(new Intent(getBaseContext(), ActionService.class));
     }
+
+    public void cleanSlate(View view) {
+
+        //This will wipe the entire DB
+    }
+
+    public void changeSettings(View view) {
+        //This will enable to change the settings
+    }
 }
 
 
