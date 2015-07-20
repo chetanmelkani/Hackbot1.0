@@ -9,16 +9,16 @@ public class HackBotEvent
 {
 
 	private int id;						//unique id of each event, primary key 
-    private int eventId;				//eventId from Events table
-    private long timeToTrigger;			//this value is in minutes
-    private long firstOccurrence;
-    private long lastOccurrence;
-    private String timesOccurred;		//11011 then the first one from the left is the latest value and so on
+    private int eventId;				//eventId from Events table:1, 3, 5
+    private long timeToTrigger;			//this value is in minutes, if on any day the event has to be triggered on 2 AM then this value will be 120
+    private long firstOccurrence;		//time in long when event first occurred
+    private long lastOccurrence;		//time in long when event last occurred
+    private String timesOccurred;		//11011 then the first one from the left is the latest value and so on, keeps tracks of the last 15 days
     private long probability;			//to execute an event check both the probability and eventLearned
     private long duration;				//duration of the event in milliseconds
-    private String pattern;
+    private String pattern;				//pattern to track the event weekly 0010000
     private int repeatedWeekly;			//a flag 1 or 0 based on recursion in a week
-    private long repeatInDays;
+    private long repeatInDays;			//if not repeated weekly after how many days will be repeated
     private long daysTracked;			//number of days this event has been tracked
     private int isLearned;				//this has value -1, 0 and 1, -1 is when not learned, not unlearn, 0 is unlearn, 1 is learned
     private int isExecuting;			//is 1 when the event is running else 0

@@ -354,6 +354,35 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    /**
+     *
+     */
+    public long insertToHackBotEventsDummy(HackBotEvent hbe) {
+        Log.d(LOG, "in insertToHackBotEvents");
+        printTheHBETest(hbe);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(KEY_EVENTS_ID, hbe.getEventId());
+        contentValues.put(KEY_HACK_BOT_EVENTS_TIME_TO_TRIGGER, hbe.getTimeToTrigger());
+        contentValues.put(KEY_HACK_BOT_EVENTS_FIRST_OCCURRENCE, hbe.getFirstOccurrence());
+        contentValues.put(KEY_HACK_BOT_EVENTS_LAST_OCCURRENCE, hbe.getLastOccurrence());
+        contentValues.put(KEY_HACK_BOT_EVENTS_TIMES_OCCURRED, hbe.getTimesOccurred());
+        contentValues.put(KEY_HACK_BOT_EVENTS_PROBABILITY, hbe.getProbability());
+        contentValues.put(KEY_HACK_BOT_EVENTS_DURATION, hbe.getDuration());
+        contentValues.put(KEY_HACK_BOT_EVENTS_PATTERN, hbe.getPattern());
+        contentValues.put(KEY_HACK_BOT_EVENTS_REPEATED_WEEKLY, hbe.getRepeatedWeekly());
+        contentValues.put(KEY_HACK_BOT_EVENTS_REPEATED_DAYS, hbe.getRepeatInDays());
+        contentValues.put(KEY_HACK_BOT_EVENTS_DAYS_TRACKED, hbe.getDaysTracked());
+        contentValues.put(KEY_HACK_BOT_EVENTS_IS_EXECUTING, hbe.getIsExecuting());
+        contentValues.put(KEY_HACK_BOT_EVENTS_IS_LEARNED, hbe.getIsLearned());
+        contentValues.put(KEY_HACK_BOT_EVENTS_DAYS_FULFILLED, hbe.getDaysFulfilled());
+        contentValues.put(KEY_HACK_BOT_EVENTS_VALUE, hbe.getValue());
+        Log.d(LOG, "database updated");
+        return db.insert(TABLE_HACK_BOT_EVENTS, null, contentValues);
+    }
+
     /**
      * Insert to HBE table
      *

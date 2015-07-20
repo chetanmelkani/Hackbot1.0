@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.example.hackbot.R;
 import com.facebook.stetho.Stetho;
+import com.hackbot.businessLogic.Algo;
 import com.hackbot.dao.DBHelper;
 import com.hackbot.entity.EventIdConstant;
 import com.hackbot.entity.Events;
+import com.hackbot.entity.HackBotEvent;
 import com.hackbot.services.ActionService;
 import com.hackbot.services.EventListenerService;
 
@@ -120,7 +122,7 @@ public class EventSettingsActivity extends Activity {
     public void getListenerService() {
         Log.d(LOG, "in getListenerService");
         Intent intent = new Intent(getBaseContext(), EventListenerService.class);
-        getBaseContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
 
@@ -190,6 +192,15 @@ public class EventSettingsActivity extends Activity {
     public void changeSettings(View view) {
         //This will enable to change the settings
         Log.d(LOG, "in changeSettings");
+    }
+
+    public void makeDumyCalls(){
+        HackBotEvent hbe = new HackBotEvent();
+        Algo algo = new Algo(this);
+
+        //create the dummy hbe object
+        //and insert it to writeToDB, then see if the algo is working fine
+        //then check the action service
     }
 }
 

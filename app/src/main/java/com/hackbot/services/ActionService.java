@@ -59,9 +59,9 @@ public class ActionService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(LOG, "in onStartCommand");
 
-		Toast.makeText(this, "Action Service Started", Toast.LENGTH_LONG)
-				.show();
+	//	Toast.makeText(this, "Action Service Started", Toast.LENGTH_LONG).show();
 		dbHelper = DBHelper.getInstance(this);
+
 		//fillDummyData();
 		Timer timer = new Timer();
 		TimerTask hourlyTask = new TimerTask() {
@@ -229,11 +229,30 @@ public class ActionService extends Service {
 		}
 	}
 
+	//this will insert the dummy data
 	public void fillDummyData() {
 		Log.d(LOG, "in fillDummyData");
-		HackBotEvent event = new HackBotEvent();
+		/*HackBotEvent event = new HackBotEvent();
 		event.setId(1);
-		event.setDuration(30);
+        event.setEventId(5);
+        event.setTimeToTrigger(120);
+        event.setFirstOccurrence();
+        event.setLastOccurrence();
+        event.setTimesOccurred("1111111");
+        event.setProbability(100);
+        event.setDuration(3600000);
+        event.setPattern("1111111");
+        event.setRepeatedWeekly(1);
+        event.setRepeatInDays(0);
+        event.setDaysTracked();
+        event.setIsLearned(1);
+        event.setIsExecuting();
+        event.setDaysFulfilled();
+        event.setValue();*/
+
+
+
+		/*event.setDuration(30);
 		event.setTimeToTrigger(Calendar.getInstance().getTimeInMillis());
 		event.setEventId(2);
 		event.setValue(0);
@@ -244,7 +263,7 @@ public class ActionService extends Service {
 		event2.setTimeToTrigger(Calendar.getInstance().getTimeInMillis() + 2000);
 		event2.setEventId(4);
 		event2.setValue(0);
-		eventsListened.add(event2);
+		eventsListened.add(event2);*/
 	}
 
 	@Override

@@ -32,7 +32,8 @@ public class Algo {
 		context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);	
 		
 	}
-	
+
+    //if a new event add to the DB a new entry
 	private HackBotEvent addNewEvent(int eventId, long timeTriggered, int value){
 		//this is called when its is the first event of its type
 		//and has no related entry in the DB.
@@ -83,7 +84,8 @@ public class Algo {
 
 		return hbe;
 	}
-	
+
+	//This receives the call from the BroadCastReceivers
 	public void writeToDB(int eventId, long timeTriggered, int value){
 		Log.d(LOG, "writeToDB values received " + eventId + " "+ timeTriggered+ " "+ value);
 		HackBotEvent hbe=null;
