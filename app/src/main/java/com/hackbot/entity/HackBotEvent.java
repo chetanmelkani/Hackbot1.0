@@ -1,5 +1,7 @@
 package com.hackbot.entity;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -7,6 +9,8 @@ import com.hackbot.utility.Constants;
 
 public class HackBotEvent
 {
+
+	private final static String LOG = "HackBot"+ HackBotEvent.class.getSimpleName();
 
 	private int id;						//unique id of each event, primary key 
     private int eventId;				//eventId from Events table:1, 3, 5
@@ -163,6 +167,7 @@ public class HackBotEvent
 	 * @return
 	 */
 	public boolean toTriggerOrNot(long time){
+		Log.d(LOG, "in toTriggerOrNot at time " + time);
 		if(this.repeatedWeekly==1){
 			
 			Date d = new Date(time);

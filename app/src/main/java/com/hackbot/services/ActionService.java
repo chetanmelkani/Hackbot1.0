@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 public class ActionService extends Service {
 
+    //TODO should these be created here ?
 	private List<HackBotEvent> eventsListened = new ArrayList<>();
 	private List<TrackedEvent> trackedEvents = new ArrayList<>();
 
@@ -67,6 +68,8 @@ public class ActionService extends Service {
 		TimerTask hourlyTask = new TimerTask() {
 			@Override
 			public void run() {
+                Log.d(LOG, "This is TimerTask it runs every minute");
+                Log.d(LOG, "The size of eventsListened is " + eventsListened.size());
 
 				for (HackBotEvent bot : eventsListened) {
 					if (bot.toTriggerOrNot(Calendar.getInstance()
@@ -93,6 +96,8 @@ public class ActionService extends Service {
 						}
 					}
 				}
+
+                Log.d(LOG, "The size of trackedEvents is " + trackedEvents.size());
 				for (TrackedEvent bot : trackedEvents) {
 					
 						switch (bot.eventId) {
@@ -155,17 +160,13 @@ public class ActionService extends Service {
 			try {
 				dataMtd.invoke(dataManager, value);
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -175,6 +176,7 @@ public class ActionService extends Service {
 		Log.d(LOG, "in fillListenedEventList");
 		boolean isNew = true;
 		List<Integer> deletedIds = new ArrayList<Integer>();
+
 		if (updatedEvent != null && updatedEvent.getId() != 0) {
 			for (Iterator iterator = eventsListened.iterator(); iterator
 					.hasNext();) {
