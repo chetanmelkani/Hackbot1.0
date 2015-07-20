@@ -31,13 +31,17 @@ public class EventListenerService extends Service {
 	private Algo algo ;
 	
 	private DBHelper dbHelper;
-	
-	private final IBinder mBinder = new LocalBinder();
 	private final static String LOG = "HackBot"+EventListenerService.class.getSimpleName();
+
+	//This binds the client to the service
+	private final IBinder mBinder = new LocalBinder();
+
+
 
 	public class LocalBinder extends Binder { 
 		public EventListenerService getService() { 
-			// Return this instance of LocalService so clients can call public methods 
+			// Return this instance of LocalService so clients can call public methods
+			Log.d(LOG, "in getService");
 			return EventListenerService.this; 
 		} 
 	} 
@@ -81,9 +85,9 @@ public class EventListenerService extends Service {
 		return START_STICKY;
 	}
 	
-	public void setBroadCastReciever(List<Events> events)
+	public void setBroadCastReceiver(List<Events> events)
 	{
-		Log.d(LOG, "in setBroadCastReciever size of events " + events.size() + " " + events.toString());
+		Log.d(LOG, "in setBroadCastReceiver size of events " + events.size());
 		for (Events event : events)
 		{
 			Log.d(LOG, "Event Id got :"+event.getId());

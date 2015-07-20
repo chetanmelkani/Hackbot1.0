@@ -111,7 +111,7 @@ public class EventSettingsActivity extends Activity {
 
                 // Calling Listener Service class
                 if (mBound)
-                    mService.setBroadCastReciever(eventList);
+                    mService.setBroadCastReceiver(eventList);
             }
         });
 
@@ -139,6 +139,7 @@ public class EventSettingsActivity extends Activity {
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
+            Log.d(LOG, "in onServiceDisconnected");
             mBound = false;
         }
     };
@@ -188,6 +189,7 @@ public class EventSettingsActivity extends Activity {
 
     public void changeSettings(View view) {
         //This will enable to change the settings
+        Log.d(LOG, "in changeSettings");
     }
 }
 
