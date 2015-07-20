@@ -19,6 +19,8 @@ public final class R {
     }
     public static final class id {
         public static final int btnDisplay=0x7f080003;
+        public static final int buttonChangeSettings=0x7f080005;
+        public static final int buttonCleanSlate=0x7f080004;
         public static final int chk3G=0x7f080001;
         public static final int chkAudio=0x7f080000;
         public static final int chkBluetooth=0x7f080002;
@@ -31,11 +33,13 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f060000;
-        public static final int btn_ok=0x7f060001;
-        public static final int chk_3G=0x7f060002;
-        public static final int chk_Audio=0x7f060003;
-        public static final int chk_Bluetooth=0x7f060004;
-        public static final int hello=0x7f060005;
+        public static final int btn_changeSettings=0x7f060001;
+        public static final int btn_cleanSlate=0x7f060002;
+        public static final int btn_ok=0x7f060003;
+        public static final int chk_3G=0x7f060004;
+        public static final int chk_Audio=0x7f060005;
+        public static final int chk_Bluetooth=0x7f060006;
+        public static final int hello=0x7f060007;
     }
     public static final class style {
         /** 

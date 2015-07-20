@@ -31,5 +31,20 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_ok" />
 
+
+    <Button
+        android:id="@+id/buttonCleanSlate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_cleanSlate"
+        android:onClick="cleanSlate"/>
+
+    <Button
+        android:id="@+id/buttonChangeSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_changeSettings"
+        android:onClick="changeSettings"/>
+
 </LinearLayout>
 <!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/layout/activity_event_settings.xml -->
