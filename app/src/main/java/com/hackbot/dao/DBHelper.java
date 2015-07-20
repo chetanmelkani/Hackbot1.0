@@ -17,7 +17,7 @@ import com.hackbot.utility.Constants;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String LOG = "DBHelper";
+    private static final String LOG = "HackBotDBHelper";
 
     public static final String DATABASE_NAME = "HackBotDB";
     public static final String KEY_HACK_BOT_EVENTS_TIME_TO_TRIGGER = "time_to_trigger";
@@ -526,6 +526,19 @@ public class DBHelper extends SQLiteOpenHelper {
                         "hbe.getTimesOccurred()" + hbe.getTimesOccurred() +
                         "hbe.getTimeToTrigger()" + hbe.getTimeToTrigger() +
                         "hbe.getValue()" + hbe.getValue());
+    }
+
+    public int deleteAllData(){
+        //This method deletes all the data in the database
+        Log.d(LOG, "in restoreTables");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.d(LOG,"no of rows deleted from " + TABLE_EVENTS + " are : " + db.delete(TABLE_EVENTS, null, null));
+        Log.d(LOG, "no of rows deleted from " + TABLE_HACK_BOT_EVENTS + " are : " + db.delete(TABLE_HACK_BOT_EVENTS, null, null));
+        Log.d(LOG, "no of rows deleted from " + TABLE_EVENTS_TRACKED + " are : " + db.delete(TABLE_EVENTS_TRACKED, null, null));
+        Log.d(LOG, "no of rows deleted from " + TABLE_EVENTS_RUNNING + " are : " + db.delete(TABLE_EVENTS_RUNNING, null, null));
+
+        return 1;
     }
 
 }

@@ -32,7 +32,7 @@ public class ActionService extends Service {
 
 	private DBHelper dbHelper;
 
-	private final static String LOG = ActionService.class.getSimpleName();
+	private final static String LOG = "HackBot" + ActionService.class.getSimpleName();
 
 	class TrackedEvent {
 		int id;

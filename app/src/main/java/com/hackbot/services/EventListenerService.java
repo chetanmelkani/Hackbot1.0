@@ -33,7 +33,7 @@ public class EventListenerService extends Service {
 	private DBHelper dbHelper;
 	
 	private final IBinder mBinder = new LocalBinder();
-	private final static String LOG = EventListenerService.class.getSimpleName();
+	private final static String LOG = "HackBot"+EventListenerService.class.getSimpleName();
 
 	public class LocalBinder extends Binder { 
 		public EventListenerService getService() { 
@@ -83,10 +83,10 @@ public class EventListenerService extends Service {
 	
 	public void setBroadCastReciever(List<Events> events)
 	{
-		Log.d(LOG, "in setBroadCastReciever");
+		Log.d(LOG, "in setBroadCastReciever size of events " + events.size() + " " + events.toString());
 		for (Events event : events)
 		{
-			Log.d("listener", "Event Id got :"+event.getId());
+			Log.d(LOG, "Event Id got :"+event.getId());
 			switch(event.getId())
 			{
 			case EventIdConstant.AUDIO_ON:

@@ -19,9 +19,11 @@ public class EventBroadcastAudioReceiver extends BroadcastReceiver {
 
     private List<Events> eventSettingsList;
     private Algo algo;
+    private final static String LOG = "HackBot"+ EventBroadcastAudioReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
+        Log.d(LOG, "in onReceive");
 
         algo = new Algo(ctx.getApplicationContext());
         Toast.makeText(ctx, "Started", Toast.LENGTH_SHORT).show();
@@ -32,18 +34,18 @@ public class EventBroadcastAudioReceiver extends BroadcastReceiver {
 
             switch (am.getRingerMode()) {
                 case AudioManager.RINGER_MODE_SILENT:
-                    Log.i("MyApp", "Silent mode");
+                    Log.d(LOG, "Silent mode");
                     performOperation(Enums.EventIdConstant.AUDIO_ON, 0);
                     break;
                 case AudioManager.RINGER_MODE_VIBRATE:
-                    Log.i("MyApp", "Vibrate mode");
+                    Log.d(LOG, "Vibrate mode");
                     break;
                 case AudioManager.RINGER_MODE_NORMAL:
-                    Log.i("MyApp", "Normal mode");
+                    Log.d(LOG, "Normal mode");
                     performOperation(Enums.EventIdConstant.AUDIO_ON, 1);
                     break;
             }
-            Log.d("app", "Phone audio mode changed");
+            Log.d(LOG, "Phone audio mode changed");
         }
         
         	
@@ -63,6 +65,7 @@ public class EventBroadcastAudioReceiver extends BroadcastReceiver {
 
     private void updateEventSettings(List<Events> newEventList) {
         //1. Find out if there is a change in setting it needs to be unlearned
+        Log.d(LOG, "in updateEventSettings");
         if (eventSettingsList == null && eventSettingsList.size() == 0) {
             this.eventSettingsList = newEventList;
         } else {
@@ -80,6 +83,7 @@ public class EventBroadcastAudioReceiver extends BroadcastReceiver {
      * Action is performed
      */
     private void performOperation(int eventSettingsId, int value) {
+        Log.d(LOG, "in performOperation");
         Time time = new Time(Time.getCurrentTimezone());
         time.setToNow();
         algo.writeToDB(eventSettingsId, time.toMillis(false), value);

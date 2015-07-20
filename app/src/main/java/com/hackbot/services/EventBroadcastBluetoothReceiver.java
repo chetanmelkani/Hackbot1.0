@@ -14,7 +14,7 @@ public class EventBroadcastBluetoothReceiver extends BroadcastReceiver
 {
 
 	private Algo algo;
-	private final static String LOG = EventBroadcastBluetoothReceiver.class.getSimpleName();
+	private final static String LOG = "HackBot"+ EventBroadcastBluetoothReceiver.class.getSimpleName();
 
 	@Override
 	public void onReceive(Context context, Intent intent)

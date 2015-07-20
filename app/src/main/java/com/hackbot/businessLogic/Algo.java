@@ -23,7 +23,7 @@ public class Algo {
 	private static ActionService mService;			
 	static boolean  mBound = false;
 	
-	private static final String LOG = "Algo";
+	private static final String LOG = "HackBotAlgo";
 	
 	public Algo(Context context){
 		this.context = context;
@@ -36,7 +36,7 @@ public class Algo {
 	private HackBotEvent addNewEvent(int eventId, long timeTriggered, int value){
 		//this is called when its is the first event of its type
 		//and has no related entry in the DB.
-		Log.d("Algo:", "This is a new event " + eventId);
+		Log.d(LOG, "This is a new event " + eventId);
 		HackBotEvent hbe = new HackBotEvent();
 
 		String patternArray[] = {"0","0","0","0","0","0","0"};
@@ -85,7 +85,7 @@ public class Algo {
 	}
 	
 	public void writeToDB(int eventId, long timeTriggered, int value){
-		Log.d("writeToDB:", "values received " + eventId + " "+ timeTriggered+ " "+ value);
+		Log.d(LOG, "writeToDB values received " + eventId + " "+ timeTriggered+ " "+ value);
 		HackBotEvent hbe=null;
 		
 		if(dbh.isNewEvent(eventId,timeTriggered)==1){		
@@ -97,7 +97,7 @@ public class Algo {
 		
 		else if(dbh.isEventToLearn(eventId,timeTriggered)==1){	//this will be true when an event in found in the DB which 
 			//has the same approx timeToTrigger and this event should not be in the EventsTracked table
-			Log.d("Algo:", "this is atleast one entry in the DB of this event " + eventId);
+			Log.d(LOG, "this is atleast one entry in the DB of this event " + eventId);
 			int isEventRunning = dbh.isEventRunning(eventId);
 
 			if(isEventRunning!=1){			//check if this event is already running by the PerformActionService
@@ -206,7 +206,7 @@ public class Algo {
 		
 		else if(dbh.isEventToLearn(eventId, timeTriggered)==-1){		//this will run when the incoming event has an entry in the events tracked table
 																		//to update the duration
-			Log.d("Algo:", "This is learning the duration");
+			Log.d(LOG, "This is learning the duration");
 			EventsTracked et = dbh.getEventTrackedById(eventId);
 			
 			 hbe = dbh.getHbeById(et.getHbeId());
@@ -228,7 +228,7 @@ public class Algo {
 		
 		else if((hbe = dbh.getUnlearnEvent(eventId, timeTriggered))!=null){		//unlearn event		
 									//assume the event is identified which has to be unlearned,  
-			Log.d("Algo:", "This is unlearn algo");
+			Log.d(LOG, "This is unlearn algo");
 			//change the probability, timesOccured, keep duration same
 			String timesOccuredArray[] = stringToArray(hbe.getTimesOccurred());
 			if(timesOccuredArray.length<15){

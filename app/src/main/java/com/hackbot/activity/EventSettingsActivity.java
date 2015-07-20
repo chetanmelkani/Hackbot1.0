@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.hackbot.R;
 import com.facebook.stetho.Stetho;
+import com.hackbot.dao.DBHelper;
 import com.hackbot.entity.EventIdConstant;
 import com.hackbot.entity.Events;
 import com.hackbot.services.ActionService;
@@ -29,10 +30,11 @@ public class EventSettingsActivity extends Activity {
 
     private CheckBox chkAudio, chk3G, chkBluetooth;
     private Button btnDisplay;
+    private DBHelper dbh;
     EventListenerService mService;
     boolean mBound = false;
 
-    private final static String LOG = EventSettingsActivity.class.getSimpleName();
+    private final static String LOG = "HackBot" +EventSettingsActivity.class.getSimpleName();
 
 
     @Override
@@ -40,6 +42,7 @@ public class EventSettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d(LOG, "in onCreate");
         setContentView(R.layout.activity_event_settings);
+        this.dbh = DBHelper.getInstance(this);
         startService();
         addListenerOnButton();
 
@@ -66,6 +69,7 @@ public class EventSettingsActivity extends Activity {
 
             @Override
             public void onClick(View v) {
+                Log.d(LOG, "start button pressed");
                 List<Events> eventList = new ArrayList<Events>();
 
                 //Audio checkbox
@@ -103,7 +107,7 @@ public class EventSettingsActivity extends Activity {
                 result.append("\nAndroid check : ").append(chk3G.isChecked());
                 result.append("\nWindows Mobile check :").append(chkBluetooth.isChecked());
 
-                Toast.makeText(EventSettingsActivity.this, result.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(EventSettingsActivity.this, result.toString(), Toast.LENGTH_LONG).show();
 
                 // Calling Listener Service class
                 if (mBound)
@@ -142,7 +146,6 @@ public class EventSettingsActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         Log.d(LOG, "in onDestroy");
         super.onDestroy();
         if (mConnection != null) {
@@ -155,7 +158,6 @@ public class EventSettingsActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.d(LOG, "in onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.event_settings, menu);
         return true;
     }
@@ -179,6 +181,9 @@ public class EventSettingsActivity extends Activity {
     public void cleanSlate(View view) {
 
         //This will wipe the entire DB
+        Log.d(LOG, "in cleanSlate");
+        dbh.deleteAllData();
+        Log.d(LOG, "all data deleted");
     }
 
     public void changeSettings(View view) {

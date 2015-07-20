@@ -13,25 +13,26 @@ import android.util.Log;
 public class EventBroadcastDataReceiver extends BroadcastReceiver
 {
 	private Algo algo;
-
+    private final static String LOG = "HackBot"+ EventBroadcastDataReceiver.class.getSimpleName();
 
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+        Log.d(LOG, "in onReceive");
 		algo=new Algo(context.getApplicationContext());
 		if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION))
         {
-            Log.d("app", "Phone connectivity mode changed");
+            Log.d(LOG, "Phone connectivity mode changed");
             boolean noConnectivity = intent.getBooleanExtra(
                     ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
             if (!noConnectivity) {
-                Log.d("NetworkCheckReceiver", "connected");
+                Log.d(LOG, "connected");
                 performOperation(Enums.EventIdConstant.DATA_ON, 1);
             }
             else
             {
-                Log.d("NetworkCheckReceiver", "disconnected");
+                Log.d(LOG, "disconnected");
                 performOperation(Enums.EventIdConstant.DATA_ON, 0);
             }
         }
@@ -40,6 +41,7 @@ public class EventBroadcastDataReceiver extends BroadcastReceiver
 	
 	private void performOperation(int eventSettingsId, int value)
 	{
+        Log.d(LOG, "in performOperation");
         Time time = new Time(Time.getCurrentTimezone());
         time.setToNow();
 		algo.writeToDB(eventSettingsId,  time.toMillis(false), value);	
