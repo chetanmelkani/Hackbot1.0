@@ -179,6 +179,7 @@ public class ActionService extends Service {
 
 	}
 
+    //TODO understand this method also
 	public void fillListenedEventList(HackBotEvent updatedEvent) {
 		Log.d(LOG, "in fillListenedEventList");
 		boolean isNew = true;

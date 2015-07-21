@@ -231,7 +231,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     public HackBotEvent getHbeById(int id) {
-        Log.d(LOG, "in getHbeById");
+        Log.d(LOG, "in getHbeById for id : " + id);
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_HACK_BOT_EVENTS + " WHERE "
@@ -445,10 +445,11 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
     public int insertEventsRunning(int hbeId, long timeStarted) {
-        Log.d(LOG, "insertEventsTracked enter");
+        Log.d(LOG, "in insertEventsTracked for hbe id : " + hbeId);
         SQLiteDatabase db = this.getWritableDatabase();
 
         HackBotEvent hbe = getHbeById(hbeId);
+
         ContentValues values = new ContentValues();
         values.put(KEY_EVENTS_ID, hbe.getEventId());
         values.put(KEY_EVENTS_TRACKED_HBEID, hbeId);
@@ -468,7 +469,8 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     public int deleteEventRunning(int id) {
-        Log.d(LOG, "deleteEventRunning enter");
+        //TODO check which id is this, hbeId, eventId ?
+        Log.d(LOG, "in deleteEventRunning for id : " + id);
         SQLiteDatabase db = this.getWritableDatabase();
 
         Log.d(LOG, "database updated");
