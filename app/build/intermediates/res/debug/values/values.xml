@@ -7,7 +7,7 @@
     <!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">MyAndroidApp</string>
-    <string name="btn_changeSettings">Change Settings</string>
+    <string name="btn_changeSettings">Save Data</string>
     <string name="btn_cleanSlate">Clean Slate</string>
     <string name="btn_ok">Start</string>
     <string name="chk_3G">3G</string>

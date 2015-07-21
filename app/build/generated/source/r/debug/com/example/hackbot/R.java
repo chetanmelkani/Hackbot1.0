@@ -24,6 +24,9 @@ public final class R {
         public static final int chk3G=0x7f080001;
         public static final int chkAudio=0x7f080000;
         public static final int chkBluetooth=0x7f080002;
+        public static final int eventId=0x7f080006;
+        public static final int time=0x7f080007;
+        public static final int value=0x7f080008;
     }
     public static final class layout {
         public static final int activity_event_settings=0x7f030000;

@@ -70,25 +70,28 @@ public class ActionService extends Service {
 			public void run() {
                 Log.d(LOG, "This is TimerTask it runs every minute");
                 Log.d(LOG, "The size of eventsListened is " + eventsListened.size());
+                Log.d(LOG, "The size of eventsListened is " + trackedEvents.size());
 
 				for (HackBotEvent bot : eventsListened) {
-					if (bot.toTriggerOrNot(Calendar.getInstance()
-							.getTimeInMillis())) {
+					if (bot.toTriggerOrNot(Calendar.getInstance().getTimeInMillis())) {
 						switch (bot.getEventId()) {
 						case EventIdConstant.AUDIO_OFF:
 						case EventIdConstant.AUDIO_ON:
+                            Log.d(LOG, "eventsListened audioChange");
 							audioChange(bot.getValue());
 							dbHelper.insertEventsRunning(bot.getId(),Calendar.getInstance().getTimeInMillis());
 							break;
 
 						case EventIdConstant.BLUETOOTH_OFF:
 						case EventIdConstant.BLUETOOTH_ON:
+                            Log.d(LOG, "eventsListened bluetoothChange");
 							bluetoothChange(bot.getValue());
 							dbHelper.insertEventsRunning(bot.getId(),Calendar.getInstance().getTimeInMillis());
 							break;
 
 						case EventIdConstant.DATA_OFF:
 						case EventIdConstant.DATA_ON:
+                            Log.d(LOG, "eventsListened dataChange");
 							dataChange(bot.getValue());
 							dbHelper.insertEventsRunning(bot.getId(),Calendar.getInstance().getTimeInMillis());
 							break;
@@ -97,8 +100,8 @@ public class ActionService extends Service {
 					}
 				}
 
-                Log.d(LOG, "The size of trackedEvents is " + trackedEvents.size());
-				for (TrackedEvent bot : trackedEvents) {
+                //TODO what this code is doing? This is possibly to turn the event OFF, confirm
+/*				for (TrackedEvent bot : trackedEvents) {
 					
 						switch (bot.eventId) {
 						case EventIdConstant.AUDIO_OFF:
@@ -116,7 +119,7 @@ public class ActionService extends Service {
 							dataChange(bot.value);
 							break;
 					}
-				}
+				}*/
 			}
 		};
 
@@ -139,10 +142,14 @@ public class ActionService extends Service {
 	private void bluetoothChange(int valueSet) {
 		Log.d(LOG, "in bluetoothChange");
 		BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
-		if (valueSet == 1)
-			bluetooth.enable();
-		else
-			bluetooth.disable();
+		if (valueSet == 1) {
+            Log.d(LOG, "bluetooth.enable()");
+            bluetooth.enable();
+        }
+		else {
+            bluetooth.disable();
+            Log.d(LOG, "bluetooth.disable()");
+        }
 	}
 
 	private void dataChange(int valueSet) {
@@ -176,6 +183,7 @@ public class ActionService extends Service {
 		Log.d(LOG, "in fillListenedEventList");
 		boolean isNew = true;
 		List<Integer> deletedIds = new ArrayList<Integer>();
+        Log.d(LOG, "in fillListenedEventList The size of eventsListened is " + eventsListened.size());
 
 		if (updatedEvent != null && updatedEvent.getId() != 0) {
 			for (Iterator iterator = eventsListened.iterator(); iterator

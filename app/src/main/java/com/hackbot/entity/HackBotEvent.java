@@ -180,13 +180,19 @@ public class HackBotEvent
 				long timeToTrigger = c.get(Calendar.HOUR_OF_DAY) * 60;
 				timeToTrigger += c.get(Calendar.MINUTE);
 				
-				if(timeToTrigger==this.timeToTrigger)
-					return true;
-				else
-					return false;
+				if(timeToTrigger==this.timeToTrigger) {
+                    Log.d(LOG, "in toTriggerOrNot return true");
+                    return true;
+                }
+				else {
+                    Log.d(LOG, "in toTriggerOrNot return false");
+                    return false;
+                }
 			}
-			else
-				return false;
+			else {
+                Log.d(LOG, "in toTriggerOrNot return false");
+                return false;
+            }
 		}
 		else{
 			if((time - this.lastOccurrence)/Constants.MILLISECONDS_A_DAY == this.repeatInDays){
@@ -196,13 +202,19 @@ public class HackBotEvent
 				long timeToTrigger = c.get(Calendar.HOUR_OF_DAY) * 60;
 				timeToTrigger += c.get(Calendar.MINUTE);
 				
-				if(timeToTrigger==this.timeToTrigger)
-					return true;
-				else
-					return false;
+				if(timeToTrigger==this.timeToTrigger) {
+                    Log.d(LOG, "in toTriggerOrNot return true");
+                    return true;
+                }
+				else {
+                    Log.d(LOG, "in toTriggerOrNot return false");
+                    return false;
+                }
 			}
-			else
-				return false;
+			else {
+                Log.d(LOG, "in toTriggerOrNot return false");
+                return false;
+            }
 		}
 	}
 	

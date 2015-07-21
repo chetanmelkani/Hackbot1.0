@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackbot.R;
@@ -168,16 +169,16 @@ public class EventSettingsActivity extends Activity {
     // Method to start the service
     public void startService() {
         Log.d(LOG, "in startService");
-        startService(new Intent(getBaseContext(), EventListenerService.class));
+     //   startService(new Intent(getBaseContext(), EventListenerService.class));
         startService(new Intent(getBaseContext(), ActionService.class));
-        getListenerService();
+     //   getListenerService();
 
     }
 
     // Method to stop the service
     public void stopService() {
         Log.d(LOG, "in stopService");
-        stopService(new Intent(getBaseContext(), EventListenerService.class));
+     //   stopService(new Intent(getBaseContext(), EventListenerService.class));
         stopService(new Intent(getBaseContext(), ActionService.class));
     }
 
@@ -192,13 +193,61 @@ public class EventSettingsActivity extends Activity {
     public void changeSettings(View view) {
         //This will enable to change the settings
         Log.d(LOG, "in changeSettings");
+        //this is making the dummy calls for now
+        TextView eventId = (TextView) findViewById(R.id.eventId);
+        TextView time = (TextView) findViewById(R.id.time);
+        TextView value = (TextView) findViewById(R.id.value);
+
+     //   int eventIdInteger = Integer.parseInt(eventId.getText().toString());
+     //   long timeLong = Long.parseLong(time.getText().toString());
+     //   int valueInteger = Integer.parseInt(value.getText().toString());
+
+        Algo algo = new Algo(this);
+        //valueInteger should always be 1
+
+        long timeLong = 1436200200000L;
+        int eventIdInteger = 5;
+        int valueInteger = 1;
+
+
+        for(int i=0;i<5;i++){
+            algo.writeToDB(5, timeLong, valueInteger);
+
+            //enter the end case of the above call
+            algo.writeToDB(eventIdInteger, (timeLong + 30*60*1000), 0);
+
+
+            Log.d(LOG, "taking a nap for 2 seconds");
+            try {
+                Thread.currentThread().sleep(2000);
+            } catch (InterruptedException e) {
+                Log.d(LOG, "the nap got fucked up!!");
+                e.printStackTrace();
+            }
+            timeLong += 24*60*60*1000;
+
+        }
+
+        try {
+            Thread.currentThread().sleep(5000);
+        } catch (InterruptedException e) {
+            Log.d(LOG, "the nap got fucked up!!");
+            e.printStackTrace();
+        }
+
+        Log.d(LOG, "this should be learned");
+        algo.writeToDB(5, 1436805000000L, valueInteger);
+
+
+        //TODO check the code what is the use of value
+
     }
 
-    public void makeDumyCalls(){
-        HackBotEvent hbe = new HackBotEvent();
+    public void makeDummyCalls(){
+
         Algo algo = new Algo(this);
 
-      //  algo.writeToDB();
+     //   algo.writeToDB();
 
         //create the dummy hbe object
         //and insert it to writeToDB, then see if the algo is working fine
