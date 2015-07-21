@@ -198,6 +198,8 @@ public class EventSettingsActivity extends Activity {
         HackBotEvent hbe = new HackBotEvent();
         Algo algo = new Algo(this);
 
+      //  algo.writeToDB();
+
         //create the dummy hbe object
         //and insert it to writeToDB, then see if the algo is working fine
         //then check the action service
