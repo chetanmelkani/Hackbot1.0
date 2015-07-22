@@ -104,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Use the application context, which will ensure that you 
         // don't accidentally leak an Activity's context.
-        Log.d(LOG, "in getInstance");
+        Log.d(LOG, "in getInstance, got the instance of DBHelper");
         if (mInstance == null) {
             mInstance = new DBHelper(ctx.getApplicationContext());
         }
@@ -200,9 +200,12 @@ public class DBHelper extends SQLiteOpenHelper {
             et.setEventId(c.getInt(c.getColumnIndex(KEY_EVENTS_ID)));
             et.setHbeId(c.getInt(c.getColumnIndex(KEY_EVENTS_TRACKED_HBEID)));
             et.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+            Log.d(LOG, "in getEventTrackedById event already present");
             return et;
-        } else
+        } else {
+            Log.d(LOG, "in getEventTrackedById event not present");
             return null;
+        }
 
     }
 
@@ -294,12 +297,13 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return
      */
     public int isNewEvent(int eventId, long timeTriggered) {
-        Log.d(LOG, "in isNewEvent");
+        Log.d(LOG, "in isNewEvent, for eventId :" + eventId + " and timeTriggered :" + timeTriggered);
         SQLiteDatabase db = this.getReadableDatabase();
 
         //check if this event id is already in events tracking table
         EventsTracked et = getEventTrackedById(eventId);
         if (et != null) {
+            Log.d(LOG, "in isNewEvent not a new event");
             return 0;
         }
         //KEY_HACK_BOT_EVENTS_TIME_TO_TRIGGER this is in minutes
@@ -314,9 +318,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             int i = c.getInt(c.getColumnIndex(KEY_EVENTS_ID));
+            Log.d(LOG, "in isNewEvent not a new event");
             return 0;
-        } else
+        } else {
+            Log.d(LOG, "in isNewEvent is a new event");
             return 1;
+        }
 
     }
 
@@ -330,7 +337,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public int isEventToLearn(int eventId, long timeTriggered) {
 
-        Log.d(LOG, "in isEventToLearn");
+        Log.d(LOG, "in isEventToLearn eventId :" + eventId + " timeTriggered: " + timeTriggered);
         SQLiteDatabase db = this.getReadableDatabase();
 
         EventsTracked et = getEventTrackedById(eventId);
@@ -338,6 +345,7 @@ public class DBHelper extends SQLiteOpenHelper {
             return -1;
         } else {
             long timeInMinutes = convertLongTimeToMinutes(timeTriggered);
+
             String selectQuery = "SELECT  * FROM " + TABLE_HACK_BOT_EVENTS + " WHERE "
                     + KEY_EVENTS_ID + " = " + eventId + " AND " + KEY_HACK_BOT_EVENTS_TIME_TO_TRIGGER
                     + " BETWEEN " + (timeInMinutes - Constants.TIME_RANGE_MINUTES) + " AND " + (timeInMinutes + Constants.TIME_RANGE_MINUTES)
@@ -348,9 +356,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
             if (c.moveToFirst()) {
                 int i = c.getInt(c.getColumnIndex(KEY_EVENTS_ID));
+                Log.d(LOG, "in isEventToLearn, it has to be learned");
                 return 1;
-            } else
+            } else {
+                Log.d(LOG, "in isEventToLearn, it has not to be learned");
                 return 0;
+            }
         }
     }
 

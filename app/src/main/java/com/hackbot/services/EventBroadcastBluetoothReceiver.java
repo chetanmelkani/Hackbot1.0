@@ -24,8 +24,7 @@ public class EventBroadcastBluetoothReceiver extends BroadcastReceiver
 		if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED))
         {
         	
-        	
-        	if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) 
+        	if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)
         		    == BluetoothAdapter.STATE_OFF)
         	{
 				Log.d(LOG, "bluetooth state is off");

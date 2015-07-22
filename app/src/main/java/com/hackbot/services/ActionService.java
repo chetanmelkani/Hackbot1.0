@@ -47,7 +47,7 @@ public class ActionService extends Service {
     public class LocalBinder extends Binder {
         public ActionService getService() {
             // Return this instance of LocalService so clients can call public methods
-            Log.d(LOG, "in getService");
+            Log.d(LOG, "in getService, Return this instance of LocalService so clients can call public methods");
             return ActionService.this;
         }
     }

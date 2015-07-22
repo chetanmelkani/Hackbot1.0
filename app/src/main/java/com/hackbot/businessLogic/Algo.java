@@ -26,6 +26,7 @@ public class Algo {
 	private static final String LOG = "HackBotAlgo";
 	
 	public Algo(Context context){
+        Log.d(LOG, "an object of algo got created");
 		this.context = context;
 		this.dbh = DBHelper.getInstance(context);
 		Intent intent = new Intent(context, ActionService.class); 			
@@ -93,6 +94,7 @@ public class Algo {
 		if(dbh.isNewEvent(eventId,timeTriggered)==1){
 			//this is called when its is the first event of its type
 			//and has no related entry in the DB.
+            Log.d(LOG, "is a new event, add new entry to DB");
 			hbe = addNewEvent(eventId, timeTriggered, value);
 			
 		}
@@ -100,7 +102,7 @@ public class Algo {
 		else if(dbh.isEventToLearn(eventId,timeTriggered)==1){
 		    //this will be true when an event in found in the DB which
 			//has the same approx timeToTrigger and this event should not be in the EventsTracked table
-			Log.d(LOG, "this is entry in the DB of this event , changing value of HBE object" + eventId);
+			Log.d(LOG, "there is entry in the DB of this event , changing value of HBE object" + eventId);
 			int isEventRunning = dbh.isEventRunning(eventId);
 
 			if(isEventRunning!=1){
@@ -267,6 +269,8 @@ public class Algo {
 		Log.d(LOG, "in publishToActionService getEventId: " + hackBotEvent.getEventId());
     	if((hackBotEvent != null) && (hackBotEvent.getIsLearned() != -1) && (mBound))
 		{
+            Log.d(LOG, "in publishToActionService the event is learned eventId : "
+                    + hackBotEvent.getEventId() + " hbeId: " + hackBotEvent.getId());
 			mService.fillListenedEventList(hackBotEvent);
 		}
 	} 
