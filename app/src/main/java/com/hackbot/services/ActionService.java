@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 public class ActionService extends Service {
 
-    //TODO should these be created here ?
     private static List<HackBotEvent> eventsListened = new ArrayList<>();
     private static List<EventRunningAfterLearned> eventsRunning = new ArrayList<>();
 
@@ -76,13 +75,13 @@ public class ActionService extends Service {
 
                 for (HackBotEvent hbe : eventsListened) {
                     if (hbe.toTriggerOrNot(Calendar.getInstance().getTimeInMillis())) {
+                        EventRunningAfterLearned eral = new EventRunningAfterLearned();
                         switch (hbe.getEventId()) {
                             case EventIdConstant.AUDIO_OFF:
                             case EventIdConstant.AUDIO_ON:
                                 Log.d(LOG, "eventsListened audioChange");
                                 audioChange(hbe.getValue());
 
-                                EventRunningAfterLearned eral = new EventRunningAfterLearned();
                                 eral.setHbeId(hbe.getId());
                                 eral.setEventId(hbe.getEventId());
                                 eral.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
@@ -98,13 +97,12 @@ public class ActionService extends Service {
                                 Log.d(LOG, "eventsListened bluetoothChange");
                                 bluetoothChange(hbe.getValue());
 
-                                EventRunningAfterLearned eral1 = new EventRunningAfterLearned();
-                                eral1.setHbeId(hbe.getId());
-                                eral1.setEventId(hbe.getEventId());
-                                eral1.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
-                                eral1.setValue(hbe.getValue());
+                                eral.setHbeId(hbe.getId());
+                                eral.setEventId(hbe.getEventId());
+                                eral.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                eral.setValue(hbe.getValue());
                                 //add this event to the arraylist eventsRunning
-                                eventsRunning.add(eral1);
+                                eventsRunning.add(eral);
 
                                 //	dbHelper.insertEventsRunning(hbe.getId(),Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
                                 break;
@@ -114,18 +112,20 @@ public class ActionService extends Service {
                                 Log.d(LOG, "eventsListened dataChange");
                                 dataChange(hbe.getValue());
 
-                                EventRunningAfterLearned eral2 = new EventRunningAfterLearned();
-                                eral2.setHbeId(hbe.getId());
-                                eral2.setEventId(hbe.getEventId());
-                                eral2.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
-                                eral2.setValue(hbe.getValue());
+                                eral.setHbeId(hbe.getId());
+                                eral.setEventId(hbe.getEventId());
+                                eral.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                eral.setValue(hbe.getValue());
                                 //add this event to the arraylist eventsRunning
-                                eventsRunning.add(eral2);
+                                eventsRunning.add(eral);
 
                                 //	dbHelper.insertEventsRunning(hbe.getId(),Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
                                 break;
 
                         }
+
+                        //so that the algo can identify if this is a continuous change or not
+                        dbHelper.insertEventsRunning(eral);
                     }
                 }
 
@@ -150,9 +150,9 @@ public class ActionService extends Service {
                                 dataChange(switchInput(eral.getValue()));
                                 break;
                         }
-                        Log.d(LOG, "remove this event after the state is switched");
+                        Log.d(LOG, "remove this event after the state is switched for eventId :" + eral.getEventId());
                         iterator.remove();
-
+                        dbHelper.deleteEventRunning(eral.getEventId());
                     }
                 }
 

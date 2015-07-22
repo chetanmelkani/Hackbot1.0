@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.hackbot.entity.EventRunningAfterLearned;
 import com.hackbot.entity.EventsTracked;
 import com.hackbot.entity.HackBotEvent;
 import com.hackbot.utility.Constants;
@@ -279,7 +280,6 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private long convertLongTimeToMinutes(long time) {
-        Log.d(LOG, "in convertLongTimeToMinutes");
         Date d = new Date(time);
         Calendar c = Calendar.getInstance();
         c.setTime(d);
@@ -303,7 +303,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //check if this event id is already in events tracking table
         EventsTracked et = getEventTrackedById(eventId);
         if (et != null) {
-            Log.d(LOG, "in isNewEvent not a new event");
+            Log.d(LOG, "in isNewEvent, not a new event");
             return 0;
         }
         //KEY_HACK_BOT_EVENTS_TIME_TO_TRIGGER this is in minutes
@@ -342,6 +342,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         EventsTracked et = getEventTrackedById(eventId);
         if (et != null) {
+            Log.d(LOG, "in isEventToLearn, has entry in eventsTrackedtable");
             return -1;
         } else {
             long timeInMinutes = convertLongTimeToMinutes(timeTriggered);
@@ -452,23 +453,28 @@ public class DBHelper extends SQLiteOpenHelper {
     //EVENTS_RUNNING Table
 
     /**
-     * @param hbeId uniqueId and the time it started
+     * @param eral uniqueId and the time it started
      * @return the row ID of the newly inserted row, or -1 if an error occurred
      */
-    public int insertEventsRunning(int hbeId, long timeStarted) {
-        Log.d(LOG, "in insertEventsTracked for hbe id : " + hbeId);
+    public int insertEventsRunning(EventRunningAfterLearned eral) {
+        Log.d(LOG, "in insertEventsTracked for hbe id : " + eral.getHbeId());
+
+        Log.d(LOG, "in insertEventsTracked eral values : "
+                        +" eral.getHbeId() "+ eral.getHbeId()
+                        +" eral.getEventId() "+ eral.getEventId()
+                        +" eral.getTimeToStop() "+ eral.getTimeToStop()
+                        +" eral.getValue() "+ eral.getValue());
         SQLiteDatabase db = this.getWritableDatabase();
 
-        HackBotEvent hbe = getHbeById(hbeId);
+      //  HackBotEvent hbe = getHbeById(hbeId);
 
         ContentValues values = new ContentValues();
-        values.put(KEY_EVENTS_ID, hbe.getEventId());
-        values.put(KEY_EVENTS_TRACKED_HBEID, hbeId);
-        values.put(KEY_EVENTS_RUNNING_TIME_TO_END, timeStarted);
+        values.put(KEY_EVENTS_ID, eral.getEventId());
+        values.put(KEY_EVENTS_TRACKED_HBEID, eral.getHbeId());
+        values.put(KEY_EVENTS_RUNNING_TIME_TO_END, eral.getTimeToStop());
 
         // insert row
         long id = db.insert(TABLE_EVENTS_RUNNING, null, values);
-        Log.d(LOG, "database updated");
         return (int) id;
     }
 
@@ -478,17 +484,16 @@ public class DBHelper extends SQLiteOpenHelper {
      * delete this entry from the eventsRunning table for the eventId
      * at any moment this table will have only one entry for for any eventId
      *
-     * @param id
+     * @param eventId
      * @return
      */
-    public int deleteEventRunning(int id) {
-        //TODO check which id is this, hbeId, eventId ?
-        Log.d(LOG, "in deleteEventRunning for id : " + id);
+    public int deleteEventRunning(int eventId) {
+        Log.d(LOG, "in deleteEventRunning for eventId : " + eventId);
         SQLiteDatabase db = this.getWritableDatabase();
 
         Log.d(LOG, "database updated");
-        return db.delete(TABLE_EVENTS_RUNNING, KEY_ID + " = ?",
-                new String[]{String.valueOf(id)});
+        return db.delete(TABLE_EVENTS_RUNNING, KEY_EVENTS_ID + " = ?",
+                new String[]{String.valueOf(eventId)});
 
     }
 
@@ -519,8 +524,10 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c.moveToFirst()) {
+            Log.d(LOG, "in isEventRunning, event is running");
             return 1;
         }
+        Log.d(LOG, "in isEventRunning, event is not running");
         return 0;
     }
 

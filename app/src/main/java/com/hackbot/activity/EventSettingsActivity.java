@@ -210,7 +210,7 @@ public class EventSettingsActivity extends Activity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendar.get(Calendar.MINUTE) + 3;
+        int minutes = calendar.get(Calendar.MINUTE) + 2;
         int seconds = calendar.get(Calendar.SECOND);
 
         long timeLong = (1436121000000L + (hours * 60 * 60 + minutes * 60) * 1000 );         //6th July Monday 00:00 AM

@@ -102,10 +102,11 @@ public class Algo {
 		else if(dbh.isEventToLearn(eventId,timeTriggered)==1){
 		    //this will be true when an event in found in the DB which
 			//has the same approx timeToTrigger and this event should not be in the EventsTracked table
-			Log.d(LOG, "there is entry in the DB of this event , changing value of HBE object" + eventId);
+			Log.d(LOG, "there is entry in the DB of this event , changing value of HBE object " + eventId);
 			int isEventRunning = dbh.isEventRunning(eventId);
 
 			if(isEventRunning!=1){
+                Log.d(LOG, "This event is not running, or being tracked");
 			    //check if this event is already running by the PerformActionService, if not then proceed
 				hbe = dbh.getHbeObject(eventId, timeTriggered);
 
@@ -266,7 +267,7 @@ public class Algo {
 	}
 	
 	private void publishToActionService(HackBotEvent hackBotEvent){				
-		Log.d(LOG, "in publishToActionService getEventId: " + hackBotEvent.getEventId());
+		Log.d(LOG, "in publishToActionService ");
     	if((hackBotEvent != null) && (hackBotEvent.getIsLearned() != -1) && (mBound))
 		{
             Log.d(LOG, "in publishToActionService the event is learned eventId : "
