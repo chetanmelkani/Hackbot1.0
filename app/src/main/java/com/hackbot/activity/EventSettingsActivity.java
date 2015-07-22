@@ -27,6 +27,8 @@ import com.hackbot.services.ActionService;
 import com.hackbot.services.EventListenerService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class EventSettingsActivity extends Activity {
@@ -205,38 +207,60 @@ public class EventSettingsActivity extends Activity {
         Algo algo = new Algo(this);
         //valueInteger should always be 1
 
-        long timeLong = 1436200200000L;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE) + 3;
+        int seconds = calendar.get(Calendar.SECOND);
+
+        long timeLong = (1436121000000L + (hours * 60 * 60 + minutes * 60) * 1000 );         //6th July Monday 00:00 AM
         int eventIdInteger = 5;
         int valueInteger = 1;
 
+        calendar.setTime(new Date(timeLong));
+
+        Toast.makeText(this, "Time entered : "
+                + calendar.get(Calendar.DATE) + ":"
+                + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+                + calendar.get(Calendar.MINUTE) + ":"
+                + calendar.get(Calendar.SECOND)
+                , Toast.LENGTH_SHORT).show();
+
+        Log.d(LOG, "the time being set i the DB is :" + timeLong);
+        Log.d(LOG, "Time entered : "
+                + calendar.get(Calendar.DATE) + ":"
+                + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+                + calendar.get(Calendar.MINUTE) + ":"
+                + calendar.get(Calendar.SECOND));
 
         for(int i=0;i<5;i++){
-            algo.writeToDB(5, timeLong, valueInteger);
+            algo.writeToDB(5, timeLong , valueInteger);
 
             //enter the end case of the above call
-            algo.writeToDB(eventIdInteger, (timeLong + 30*60*1000), 0);
+            algo.writeToDB(eventIdInteger, (timeLong + 5*60*1000), 0);     //add 5 minutes to the end event, duration 5 min
 
 
             Log.d(LOG, "taking a nap for 2 seconds");
-            try {
+/*            try {
                 Thread.currentThread().sleep(2000);
             } catch (InterruptedException e) {
                 Log.d(LOG, "the nap got fucked up!!");
                 e.printStackTrace();
-            }
+            }*/
             timeLong += 24*60*60*1000;
 
         }
 
+        /*Log.d(LOG, "taking a nap for 5 seconds");
         try {
             Thread.currentThread().sleep(5000);
         } catch (InterruptedException e) {
             Log.d(LOG, "the nap got fucked up!!");
             e.printStackTrace();
-        }
+        }*/
 
         Log.d(LOG, "this should be learned");
-        algo.writeToDB(5, 1436805000000L, valueInteger);
+        algo.writeToDB(5, (1436725800000L  + (hours * 60 * 60 + minutes * 60) * 1000 ), valueInteger);        //13th July Friday 10:00 PM
 
 
         //TODO check the code what is the use of value

@@ -10,8 +10,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.hackbot.dao.DBHelper;
+import com.hackbot.entity.EventRunningAfterLearned;
 import com.hackbot.entity.HackBotEvent;
 import com.hackbot.utility.Enums.EventIdConstant;
+
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -26,223 +28,264 @@ import android.widget.Toast;
 public class ActionService extends Service {
 
     //TODO should these be created here ?
-	private List<HackBotEvent> eventsListened = new ArrayList<>();
-	private List<TrackedEvent> trackedEvents = new ArrayList<>();
+    private static List<HackBotEvent> eventsListened = new ArrayList<>();
+    private static List<EventRunningAfterLearned> eventsRunning = new ArrayList<>();
 
-	private final IBinder mBinder = new LocalBinder();
+    private final IBinder mBinder = new LocalBinder();
 
-	private DBHelper dbHelper;
+    private DBHelper dbHelper;
 
-	private final static String LOG = "HackBot" + ActionService.class.getSimpleName();
+    private final static String LOG = "HackBot" + ActionService.class.getSimpleName();
 
-	class TrackedEvent {
-		int id;
+	/*class TrackedEvent {
+        int id;
 		int eventId;
 		int value;
-		long trigerringTime;
-	}
+		long timeToStop;
+	}*/
 
-	public class LocalBinder extends Binder {
-		public ActionService getService() {
-			// Return this instance of LocalService so clients can call public methods
-			Log.d(LOG, "in getService");
-			return ActionService.this;
-		}
-	}
+    public class LocalBinder extends Binder {
+        public ActionService getService() {
+            // Return this instance of LocalService so clients can call public methods
+            Log.d(LOG, "in getService");
+            return ActionService.this;
+        }
+    }
 
-	@Override
-	public void onCreate() {
-		Log.d(LOG, "in onCreate");
+    @Override
+    public void onCreate() {
+        Log.d(LOG, "in onCreate");
 
-	}
+    }
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(LOG, "in onStartCommand");
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(LOG, "in onStartCommand");
 
-	//	Toast.makeText(this, "Action Service Started", Toast.LENGTH_LONG).show();
-		dbHelper = DBHelper.getInstance(this);
+        //	Toast.makeText(this, "Action Service Started", Toast.LENGTH_LONG).show();
+        dbHelper = DBHelper.getInstance(this);
 
-		//fillDummyData();
-		Timer timer = new Timer();
-		TimerTask hourlyTask = new TimerTask() {
-			@Override
-			public void run() {
+        //fillDummyData();
+        Timer timer = new Timer();
+        TimerTask hourlyTask = new TimerTask() {
+            @Override
+            public void run() {
                 Log.d(LOG, "This is TimerTask it runs every minute");
                 Log.d(LOG, "The size of eventsListened is " + eventsListened.size());
-                Log.d(LOG, "The size of eventsListened is " + trackedEvents.size());
+                Log.d(LOG, "The size of eventsRunning is " + eventsRunning.size());
 
-				for (HackBotEvent bot : eventsListened) {
-					if (bot.toTriggerOrNot(Calendar.getInstance().getTimeInMillis())) {
-						switch (bot.getEventId()) {
-						case EventIdConstant.AUDIO_OFF:
-						case EventIdConstant.AUDIO_ON:
-                            Log.d(LOG, "eventsListened audioChange");
-							audioChange(bot.getValue());
-							dbHelper.insertEventsRunning(bot.getId(),Calendar.getInstance().getTimeInMillis());
-							break;
+                for (HackBotEvent hbe : eventsListened) {
+                    if (hbe.toTriggerOrNot(Calendar.getInstance().getTimeInMillis())) {
+                        switch (hbe.getEventId()) {
+                            case EventIdConstant.AUDIO_OFF:
+                            case EventIdConstant.AUDIO_ON:
+                                Log.d(LOG, "eventsListened audioChange");
+                                audioChange(hbe.getValue());
 
-						case EventIdConstant.BLUETOOTH_OFF:
-						case EventIdConstant.BLUETOOTH_ON:
-                            Log.d(LOG, "eventsListened bluetoothChange");
-							bluetoothChange(bot.getValue());
-							dbHelper.insertEventsRunning(bot.getId(),Calendar.getInstance().getTimeInMillis());
-							break;
+                                EventRunningAfterLearned eral = new EventRunningAfterLearned();
+                                eral.setHbeId(hbe.getId());
+                                eral.setEventId(hbe.getEventId());
+                                eral.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                eral.setValue(hbe.getValue());
+                                //add this event to the arraylist eventsRunning
+                                eventsRunning.add(eral);
 
-						case EventIdConstant.DATA_OFF:
-						case EventIdConstant.DATA_ON:
-                            Log.d(LOG, "eventsListened dataChange");
-							dataChange(bot.getValue());
-							dbHelper.insertEventsRunning(bot.getId(),Calendar.getInstance().getTimeInMillis());
-							break;
+                                //	dbHelper.insertEventsRunning(hbe.getId(),Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                break;
 
-						}
-					}
-				}
+                            case EventIdConstant.BLUETOOTH_OFF:
+                            case EventIdConstant.BLUETOOTH_ON:
+                                Log.d(LOG, "eventsListened bluetoothChange");
+                                bluetoothChange(hbe.getValue());
 
-                //TODO what this code is doing? This is possibly to turn the event OFF, confirm
-/*				for (TrackedEvent bot : trackedEvents) {
-					
-						switch (bot.eventId) {
-						case EventIdConstant.AUDIO_OFF:
-						case EventIdConstant.AUDIO_ON:
-							audioChange(bot.value);
-							break;
+                                EventRunningAfterLearned eral1 = new EventRunningAfterLearned();
+                                eral1.setHbeId(hbe.getId());
+                                eral1.setEventId(hbe.getEventId());
+                                eral1.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                eral1.setValue(hbe.getValue());
+                                //add this event to the arraylist eventsRunning
+                                eventsRunning.add(eral1);
 
-						case EventIdConstant.BLUETOOTH_OFF:
-						case EventIdConstant.BLUETOOTH_ON:
-							bluetoothChange(bot.value);
-							break;
+                                //	dbHelper.insertEventsRunning(hbe.getId(),Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                break;
 
-						case EventIdConstant.DATA_OFF:
-						case EventIdConstant.DATA_ON:
-							dataChange(bot.value);
-							break;
-					}
-				}*/
-			}
-		};
+                            case EventIdConstant.DATA_OFF:
+                            case EventIdConstant.DATA_ON:
+                                Log.d(LOG, "eventsListened dataChange");
+                                dataChange(hbe.getValue());
 
-		// schedule the task to run starting now and then every minute...
-		timer.schedule(hourlyTask, 0, 1000 * 60);
-		return START_STICKY;
-	}
+                                EventRunningAfterLearned eral2 = new EventRunningAfterLearned();
+                                eral2.setHbeId(hbe.getId());
+                                eral2.setEventId(hbe.getEventId());
+                                eral2.setTimeToStop(Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                eral2.setValue(hbe.getValue());
+                                //add this event to the arraylist eventsRunning
+                                eventsRunning.add(eral2);
 
-	private void audioChange(int valueSet) {
-		Log.d(LOG, "in audioChange");
-		AudioManager am;
-		am = (AudioManager) getBaseContext().getSystemService(
-				Context.AUDIO_SERVICE);
-		if (valueSet == 1)
-			am.setRingerMode(2);
-		else
-			am.setRingerMode(0);
-	}
+                                //	dbHelper.insertEventsRunning(hbe.getId(),Calendar.getInstance().getTimeInMillis() + hbe.getDuration());
+                                break;
 
-	private void bluetoothChange(int valueSet) {
-		Log.d(LOG, "in bluetoothChange");
-		BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
-		if (valueSet == 1) {
+                        }
+                    }
+                }
+
+                for (Iterator<EventRunningAfterLearned> iterator = eventsRunning.iterator(); iterator.hasNext(); ) {
+                    EventRunningAfterLearned eral = iterator.next();
+                    Log.d(LOG, "size of eventsRunning list is : " + eventsRunning.size());
+                    if (eral.getTimeToStop() <= System.currentTimeMillis()) {
+                        Log.d(LOG, "found an event to delete from the eventsRunning array");
+                        switch (eral.getEventId()) {
+                            case EventIdConstant.AUDIO_OFF:
+                            case EventIdConstant.AUDIO_ON:
+                                audioChange(switchInput(eral.getValue()));
+                                break;
+
+                            case EventIdConstant.BLUETOOTH_OFF:
+                            case EventIdConstant.BLUETOOTH_ON:
+                                bluetoothChange(switchInput(eral.getValue()));
+                                break;
+
+                            case EventIdConstant.DATA_OFF:
+                            case EventIdConstant.DATA_ON:
+                                dataChange(switchInput(eral.getValue()));
+                                break;
+                        }
+                        Log.d(LOG, "remove this event after the state is switched");
+                        iterator.remove();
+
+                    }
+                }
+
+            }
+        };
+
+        // schedule the task to run starting now and then every minute...
+        timer.schedule(hourlyTask, 0, 1000 * 60);
+        return START_STICKY;
+    }
+
+    private int switchInput(int value){
+        return value == 1 ? 0 : 1;
+    }
+
+    private void audioChange(int valueSet) {
+        Log.d(LOG, "in audioChange");
+        AudioManager am;
+        am = (AudioManager) getBaseContext().getSystemService(
+                Context.AUDIO_SERVICE);
+        if (valueSet == 1)
+            am.setRingerMode(2);
+        else
+            am.setRingerMode(0);
+    }
+
+    private void bluetoothChange(int valueSet) {
+        Log.d(LOG, "in bluetoothChange");
+        BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
+        if (valueSet == 1) {
             Log.d(LOG, "bluetooth.enable()");
             bluetooth.enable();
-        }
-		else {
+        } else {
             bluetooth.disable();
             Log.d(LOG, "bluetooth.disable()");
         }
-	}
+    }
 
-	private void dataChange(int valueSet) {
-		Log.d(LOG, "in dataChange");
-		ConnectivityManager dataManager;
-		boolean value = false;
-		if (valueSet == 1)
-			value = true;
-		dataManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		Method dataMtd;
-		try {
-			dataMtd = ConnectivityManager.class.getDeclaredMethod(
-					"setMobileDataEnabled", boolean.class);
-			dataMtd.setAccessible(value);
-			try {
-				dataMtd.invoke(dataManager, value);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
+    private void dataChange(int valueSet) {
+        Log.d(LOG, "in dataChange");
+        ConnectivityManager dataManager;
+        boolean value = false;
+        if (valueSet == 1)
+            value = true;
+        dataManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        Method dataMtd;
+        try {
+            dataMtd = ConnectivityManager.class.getDeclaredMethod(
+                    "setMobileDataEnabled", boolean.class);
+            dataMtd.setAccessible(value);
+            try {
+                dataMtd.invoke(dataManager, value);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
     //TODO understand this method also
-	public void fillListenedEventList(HackBotEvent updatedEvent) {
-		Log.d(LOG, "in fillListenedEventList");
-		boolean isNew = true;
-		List<Integer> deletedIds = new ArrayList<Integer>();
+    public void fillListenedEventList(HackBotEvent updatedEvent) {
+        Log.d(LOG, "in fillListenedEventList hbe id : " + updatedEvent.getId());
+        boolean isNew = true;
+
+        List<Integer> deletedIds = new ArrayList<Integer>();
         Log.d(LOG, "in fillListenedEventList The size of eventsListened is " + eventsListened.size());
 
-		if (updatedEvent != null && updatedEvent.getId() != 0) {
-			for (Iterator iterator = eventsListened.iterator(); iterator
-					.hasNext();) {
-				HackBotEvent event = (HackBotEvent) iterator.next();
-				if (updatedEvent.getId() == event.getId()) {
-					if (updatedEvent.getIsLearned() == 0) {
-						eventsListened.remove(event);
-						deletedIds.add(updatedEvent.getId());
-					} else
-						event = updatedEvent;
-					isNew = false;
-					break;
-				}
-			}
-			if (isNew) {
-				eventsListened.add(updatedEvent);
-				TrackedEvent event = new TrackedEvent();
-				event.id = updatedEvent.getId();
-				event.eventId = updatedEvent.getEventId();
-				event.trigerringTime = updatedEvent.getTimeToTrigger()
-						+ updatedEvent.getDuration();
+        if (updatedEvent != null && updatedEvent.getId() != 0) {
+            for (Iterator iterator = eventsListened.iterator(); iterator
+                    .hasNext(); ) {
+                HackBotEvent event = (HackBotEvent) iterator.next();
+                if (updatedEvent.getId() == event.getId()) {
+                    if (updatedEvent.getIsLearned() == 0) {
+                        eventsListened.remove(event);
+                        deletedIds.add(updatedEvent.getId());
+                    } else
+                        event = updatedEvent;
+                    isNew = false;
+                    break;
+                }
+            }
+
+            if (isNew) {
+                eventsListened.add(updatedEvent);
+                Log.d(LOG, "*******don't know what this is, should not be here, commented some code here");
+               /* EventRunningAfterLearned event = new EventRunningAfterLearned();
+				event.setHbeId(updatedEvent.getId());
+				event.setEventId(updatedEvent.getEventId());
+				event.setTimeToStop(updatedEvent.getTimeToTrigger()
+                        + updatedEvent.getDuration());
 				if (updatedEvent.getValue() == 0)
 					event.value = 1;
 				else
 					event.value = 0;
-				trackedEvents.add(event);
-			}
-		} else {
-			for (Iterator iterator = eventsListened.iterator(); iterator
-					.hasNext();) {
-				HackBotEvent event = (HackBotEvent) iterator.next();
-				if (updatedEvent.getEventId() == event.getEventId()) {
-					eventsListened.remove(event);
-					deletedIds.add(updatedEvent.getId());
-				}
-			}
-		}
+				trackedEvents.add(event);*/
+            }
+        } else {
+            for (Iterator iterator = eventsListened.iterator(); iterator
+                    .hasNext(); ) {
+                HackBotEvent event = (HackBotEvent) iterator.next();
+                if (updatedEvent.getEventId() == event.getEventId()) {
+                    eventsListened.remove(event);
+                    deletedIds.add(updatedEvent.getId());
+                }
+            }
+        }
 
-		if (deletedIds.size() > 0) {
-			for (Integer id : deletedIds) {
-				for (Iterator iterator = trackedEvents.iterator(); iterator
-						.hasNext();) {
-					TrackedEvent event = (TrackedEvent) iterator.next();
-					if (event.id == id) {
-						trackedEvents.remove(event);
-					
-					}
-					if(dbHelper!=null)
-						dbHelper.deleteEventRunning(id);
-				}
-			}
-		}
-	}
+        if (deletedIds.size() > 0) {
+            Log.d(LOG, "*******don't know what this is, should not be here");
+            for (Integer id : deletedIds) {
+                for (Iterator iterator = eventsRunning.iterator(); iterator
+                        .hasNext(); ) {
+                    EventRunningAfterLearned event = (EventRunningAfterLearned) iterator.next();
+                    if (event.getHbeId() == id) {
+                        eventsRunning.remove(event);
 
-	//this will insert the dummy data
-	public void fillDummyData() {
-		Log.d(LOG, "in fillDummyData");
+                    }
+                    if (dbHelper != null)
+                        dbHelper.deleteEventRunning(id);
+                }
+            }
+        }
+    }
+
+    //this will insert the dummy data
+    public void fillDummyData() {
+        Log.d(LOG, "in fillDummyData");
 		/*HackBotEvent event = new HackBotEvent();
 		event.setId(1);
         event.setEventId(5);
@@ -275,26 +318,26 @@ public class ActionService extends Service {
 		event2.setEventId(4);
 		event2.setValue(0);
 		eventsListened.add(event2);*/
-	}
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		Log.d(LOG, "in onDestroy");
-		Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG, "in onDestroy");
+        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+    }
 
-	@Override
-	public IBinder onBind(Intent intent) {
+    @Override
+    public IBinder onBind(Intent intent) {
 
-		Log.d(LOG, "in onBind");
-		return mBinder;
-	}
+        Log.d(LOG, "in onBind");
+        return mBinder;
+    }
 
-	@Override
-	public boolean onUnbind(Intent intent) {
+    @Override
+    public boolean onUnbind(Intent intent) {
 
-		Log.d(LOG, "in onUnbind");
-		return true;
-	}
+        Log.d(LOG, "in onUnbind");
+        return true;
+    }
 }

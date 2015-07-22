@@ -39,10 +39,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //table names
-    private static final String TABLE_EVENTS_TRACKED = "events_tracked";
+    private static final String TABLE_EVENTS_TRACKED = "events_tracked";    //this is used by the algo to find the end event of an entry in the events table
     private static final String TABLE_EVENTS = "events";
-    private static final String TABLE_HACK_BOT_EVENTS = "hack_bot_events";
-    private static final String TABLE_EVENTS_RUNNING = "events_running";
+    private static final String TABLE_HACK_BOT_EVENTS = "hack_bot_events";  //this table holds the events that are detected by the service
+    private static final String TABLE_EVENTS_RUNNING = "events_running";    //this keeps tab of the running events, that were triggered by the action service
 
     //common columns
     private static final String KEY_ID = "id";
@@ -56,7 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_EVENTS_IS_ENABLED = "is_enabled";
 
     //TABLE_EVENTS_RUNNING
-    private static final String KEY_EVENTS_RUNNING_TIME_STARTED = "time_started";
+    private static final String KEY_EVENTS_RUNNING_TIME_TO_END = "time_started";
 
     //create table statements
     private static final String CREATE_EVENTS_TRACKED = "CREATE TABLE "
@@ -69,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_EVENTS_RUNNING = "CREATE TABLE "
             + TABLE_EVENTS_RUNNING + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_EVENTS_ID
-            + " INTEGER, " + KEY_EVENTS_TRACKED_HBEID + " INTEGER, " + KEY_EVENTS_RUNNING_TIME_STARTED + " INTEGER)";
+            + " INTEGER, " + KEY_EVENTS_TRACKED_HBEID + " INTEGER, " + KEY_EVENTS_RUNNING_TIME_TO_END + " INTEGER)";
 
     private static final String CREATE_HACK_BOT_EVENTS = "CREATE TABLE IF NOT EXISTS " + TABLE_HACK_BOT_EVENTS +
             " (" + KEY_ID
@@ -309,7 +309,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_HACK_BOT_EVENTS + " WHERE "
                 + KEY_EVENTS_ID + " = " + eventId + " AND " + KEY_HACK_BOT_EVENTS_TIME_TO_TRIGGER
                 + " BETWEEN " + (timeInMinutes - Constants.TIME_RANGE_MINUTES) + " AND " + (timeInMinutes + Constants.TIME_RANGE_MINUTES);
-        Log.d(LOG, selectQuery);
+    //    Log.d(LOG, selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c.moveToFirst()) {
@@ -343,7 +343,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     + " BETWEEN " + (timeInMinutes - Constants.TIME_RANGE_MINUTES) + " AND " + (timeInMinutes + Constants.TIME_RANGE_MINUTES)
                     + " AND " + timeTriggered + " - " + KEY_HACK_BOT_EVENTS_LAST_OCCURRENCE + " > 900000";            //rd22 latest change, not tested
             //to stop if the same event is continuous
-            Log.d(LOG, selectQuery);
+    //        Log.d(LOG, selectQuery);
             Cursor c = db.rawQuery(selectQuery, null);
 
             if (c.moveToFirst()) {
@@ -453,13 +453,15 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_EVENTS_ID, hbe.getEventId());
         values.put(KEY_EVENTS_TRACKED_HBEID, hbeId);
-        values.put(KEY_EVENTS_RUNNING_TIME_STARTED, timeStarted);
+        values.put(KEY_EVENTS_RUNNING_TIME_TO_END, timeStarted);
 
         // insert row
         long id = db.insert(TABLE_EVENTS_RUNNING, null, values);
         Log.d(LOG, "database updated");
         return (int) id;
     }
+
+  //  public EventsTracked
 
     /**
      * delete this entry from the eventsRunning table for the eventId
@@ -529,7 +531,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             int hbeId = c.getInt(c.getColumnIndex(KEY_EVENTS_TRACKED_HBEID));
-            long timeStarted = c.getInt(c.getColumnIndex(KEY_EVENTS_RUNNING_TIME_STARTED));
+            long timeStarted = c.getInt(c.getColumnIndex(KEY_EVENTS_RUNNING_TIME_TO_END));
 
             HackBotEvent hbe = getHbeById(hbeId);
             if (Math.abs(hbe.getDuration() - (timeTriggeredOff - timeStarted)) > Constants.TIME_RANGE)
