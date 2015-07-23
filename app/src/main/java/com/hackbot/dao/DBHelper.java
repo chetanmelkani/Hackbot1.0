@@ -272,7 +272,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_HACK_BOT_EVENTS_IS_EXECUTING, hbe.getIsExecuting());
         contentValues.put(KEY_HACK_BOT_EVENTS_IS_LEARNED, hbe.getIsLearned());
         contentValues.put(KEY_HACK_BOT_EVENTS_DAYS_FULFILLED, hbe.getDaysFulfilled());
-        contentValues.put(KEY_HACK_BOT_EVENTS_VALUE, hbe.getValue());
+     //   contentValues.put(KEY_HACK_BOT_EVENTS_VALUE, hbe.getValue());
         Log.d(LOG, "database updated");
         // updating row
         return db.update(TABLE_HACK_BOT_EVENTS, contentValues, KEY_ID + " = ?",

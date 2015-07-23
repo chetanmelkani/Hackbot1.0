@@ -218,7 +218,7 @@ public class EventSettingsActivity extends Activity {
         long timeLong = (1436121000000L + (hours * 60 * 60 + minutes * 60) * 1000 );         //6th July Monday 00:00 AM
         int eventIdInteger = 5;
         int valueInteger = 1;
-        long durationOfEvent = 5*60*1000;
+        long durationOfEvent = 3*60*1000;
 
         calendar.setTime(new Date(timeLong));
 
@@ -265,7 +265,7 @@ public class EventSettingsActivity extends Activity {
         Log.d(LOG, "this should be learned");
         long otherTime = 1436725800000L + (hours * 60 * 60 + minutes * 60) * 1000 ;        //13th July Friday 00:00 AM
         algo.writeToDB(5, otherTime, valueInteger);
-        algo.writeToDB(5, otherTime + durationOfEvent, valueInteger);     //end this event
+        algo.writeToDB(5, otherTime + durationOfEvent, 0);     //end this event
 
         //TODO check the code what is the use of value
 
