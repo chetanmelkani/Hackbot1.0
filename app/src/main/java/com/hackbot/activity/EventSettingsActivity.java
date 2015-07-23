@@ -38,8 +38,6 @@ public class EventSettingsActivity extends Activity {
     private DBHelper dbh;
     private EventListenerService mService;
     boolean mBound = false;
-    private ActionService mActionService;
-    boolean mActionBound = false;
 
     private final static String LOG = "HackBot" +EventSettingsActivity.class.getSimpleName();
 
@@ -133,7 +131,6 @@ public class EventSettingsActivity extends Activity {
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
-
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             Log.d(LOG, "in onServiceConnected");
@@ -142,7 +139,6 @@ public class EventSettingsActivity extends Activity {
             mService = binder.getService();
             mBound = true;
         }
-
 
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
@@ -173,16 +169,16 @@ public class EventSettingsActivity extends Activity {
     // Method to start the services
     public void startService() {
         Log.d(LOG, "in startService");
-     //   startService(new Intent(getBaseContext(), EventListenerService.class));
+        startService(new Intent(getBaseContext(), EventListenerService.class));
         startService(new Intent(getBaseContext(), ActionService.class));
-     //   getListenerService();
+        getListenerService();
 
     }
 
     // Method to stop the service
     public void stopService() {
         Log.d(LOG, "in stopService");
-     //   stopService(new Intent(getBaseContext(), EventListenerService.class));
+        stopService(new Intent(getBaseContext(), EventListenerService.class));
         stopService(new Intent(getBaseContext(), ActionService.class));
     }
 
@@ -254,42 +250,12 @@ public class EventSettingsActivity extends Activity {
 
         }
 
-        /*Log.d(LOG, "taking a nap for 5 seconds");
-        try {
-            Thread.currentThread().sleep(5000);
-        } catch (InterruptedException e) {
-            Log.d(LOG, "the nap got fucked up!!");
-            e.printStackTrace();
-        }*/
-
         Log.d(LOG, "this should be learned");
         long otherTime = 1436725800000L + (hours * 60 * 60 + minutes * 60) * 1000 ;        //13th July Friday 00:00 AM
         algo.writeToDB(5, otherTime, valueInteger);
         algo.writeToDB(5, otherTime + durationOfEvent, 0);     //end this event
 
-        //TODO check the code what is the use of value
-
     }
-
-
-/*    private static ServiceConnection mActionConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            Log.d(LOG,"in onServiceConnected, setting mBound true");
-            ActionService.LocalBinder binder = (ActionService.LocalBinder) service;
-            mActionService = binder.getService();
-            mActionBound = true;
-        }
-
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            Log.d(LOG,"in onServiceDisconnected, setting mBound false");
-            mActionBound = false;
-        }
-    };*/
 
 }
 
