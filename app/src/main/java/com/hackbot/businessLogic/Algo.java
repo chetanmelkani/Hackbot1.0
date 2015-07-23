@@ -13,15 +13,18 @@ import com.hackbot.entity.HackBotEvent;
 import com.hackbot.services.ActionService;
 import com.hackbot.utility.Constants;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Algo {
 	
 	private Context context;
 	private DBHelper dbh;
-	private static ActionService mService;			
+	private static ActionService mService;
 	static boolean  mBound = false;
+    private static List<HackBotEvent> listOfHBEObjects = new ArrayList<>();
 	
 	private static final String LOG = "HackBotAlgo";
 	
@@ -30,7 +33,8 @@ public class Algo {
 		this.context = context;
 		this.dbh = DBHelper.getInstance(context);
 		Intent intent = new Intent(context, ActionService.class); 			
-		context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);	
+		boolean b = context.getApplicationContext().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        Log.d(LOG, "the value returned from context.bindService() is :" + b);
 		
 	}
 
@@ -266,14 +270,21 @@ public class Algo {
 		publishToActionService(hbe);			
 	}
 	
-	private void publishToActionService(HackBotEvent hackBotEvent){				
-		Log.d(LOG, "in publishToActionService ");
+	private void publishToActionService(HackBotEvent hackBotEvent){
+
+		Log.d(LOG, "in publishToActionService mBound is :" + mBound + " and HBE event is ");
+        Log.d(LOG,hackBotEvent !=null ? "not null" : "null");
+
     	if((hackBotEvent != null) && (hackBotEvent.getIsLearned() != -1) && (mBound))
 		{
             Log.d(LOG, "in publishToActionService the event is learned eventId : "
                     + hackBotEvent.getEventId() + " hbeId: " + hackBotEvent.getId());
 			mService.fillListenedEventList(hackBotEvent);
 		}
+        else if((hackBotEvent != null) && (hackBotEvent.getIsLearned() != -1) && (!mBound)){
+            Log.d(LOG,"The hbe object is learned but mBound is still false, add this object to the list");
+            listOfHBEObjects.add(hackBotEvent);
+        }
 	} 
 		
 
@@ -373,21 +384,29 @@ public class Algo {
 		}
 	}
 	
-	private static ServiceConnection mConnection = new ServiceConnection() {
-
+	private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override 
         public void onServiceConnected(ComponentName className, IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance 
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            Log.d(LOG,"in onServiceConnected, setting mBound true");
         	ActionService.LocalBinder binder = (ActionService.LocalBinder) service; 
             mService = binder.getService(); 
-            mBound = true; 
+            mBound = true;
+
+            if(listOfHBEObjects!=null && listOfHBEObjects.size()!=0){
+                Log.d(LOG,"listOfHBEObjects is not null, call the publishToActionService for the learned hbe objects");
+                for (HackBotEvent hbe : listOfHBEObjects){
+                    publishToActionService(hbe);
+                }
+                listOfHBEObjects.clear();
+            }
         } 
 
 
         @Override 
-        public void onServiceDisconnected(ComponentName arg0) { 
-
+        public void onServiceDisconnected(ComponentName arg0) {
+            Log.d(LOG,"in onServiceDisconnected, setting mBound false");
 			mBound = false;
         } 
     }; 

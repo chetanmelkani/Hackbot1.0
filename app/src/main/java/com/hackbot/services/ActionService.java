@@ -340,4 +340,10 @@ public class ActionService extends Service {
         Log.d(LOG, "in onUnbind");
         return true;
     }
+
+    @Override
+    public void onRebind(Intent intent) {
+        Log.d(LOG, "in onRebind");
+        super.onRebind(intent);
+    }
 }

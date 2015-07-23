@@ -36,8 +36,10 @@ public class EventSettingsActivity extends Activity {
     private CheckBox chkAudio, chk3G, chkBluetooth;
     private Button btnDisplay;
     private DBHelper dbh;
-    EventListenerService mService;
+    private EventListenerService mService;
     boolean mBound = false;
+    private ActionService mActionService;
+    boolean mActionBound = false;
 
     private final static String LOG = "HackBot" +EventSettingsActivity.class.getSimpleName();
 
@@ -168,7 +170,7 @@ public class EventSettingsActivity extends Activity {
         return true;
     }
 
-    // Method to start the service
+    // Method to start the services
     public void startService() {
         Log.d(LOG, "in startService");
      //   startService(new Intent(getBaseContext(), EventListenerService.class));
@@ -269,16 +271,26 @@ public class EventSettingsActivity extends Activity {
 
     }
 
-    public void makeDummyCalls(){
 
-        Algo algo = new Algo(this);
+/*    private static ServiceConnection mActionConnection = new ServiceConnection() {
 
-     //   algo.writeToDB();
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            Log.d(LOG,"in onServiceConnected, setting mBound true");
+            ActionService.LocalBinder binder = (ActionService.LocalBinder) service;
+            mActionService = binder.getService();
+            mActionBound = true;
+        }
 
-        //create the dummy hbe object
-        //and insert it to writeToDB, then see if the algo is working fine
-        //then check the action service
-    }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            Log.d(LOG,"in onServiceDisconnected, setting mBound false");
+            mActionBound = false;
+        }
+    };*/
+
 }
 
 

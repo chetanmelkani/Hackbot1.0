@@ -36,7 +36,6 @@ public class EventBroadcastBluetoothReceiver extends BroadcastReceiver
 				Log.d(LOG, "bluetooth state is on");
         		performOperation(Enums.EventIdConstant.BLUETOOTH_ON, 1);
         	}
-        		
 
         }
 		
