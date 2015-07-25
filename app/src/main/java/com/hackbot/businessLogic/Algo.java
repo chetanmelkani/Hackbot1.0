@@ -392,7 +392,6 @@ public class Algo {
             }
         }
 
-
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
             Log.d(LOG, "in onServiceDisconnected, setting mBound false");

@@ -61,7 +61,7 @@ public class EventListenerService extends Service {
 	@Override
     public void onDestroy() {
         super.onDestroy();
-		Log.d(LOG, "in onDestroy---------- should not be called");
+		Log.d(LOG, "in onDestroy");
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
         algo.destroy();
         for (BroadcastReceiver receiver : receivers)

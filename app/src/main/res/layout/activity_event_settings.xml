@@ -32,9 +32,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="@string/btn_ok"
-        android:background="@color/primary"
-        android:textColor="@color/text_primary"
-        android:layout_margin="5dp"/>
+        android:textColor="@color/text_primary"/>
 
     <Button
         android:id="@+id/buttonCleanSlate"
@@ -43,9 +41,7 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_cleanSlate"
         android:onClick="cleanSlate"
-        android:background="@color/primary"
-        android:textColor="@color/text_primary"
-        android:layout_margin="5dp"/>
+        android:textColor="@color/text_primary"/>
 
     <Button
         android:id="@+id/buttonChangeSettings"
@@ -54,9 +50,7 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_changeSettings"
         android:onClick="changeSettings"
-        android:background="@color/primary"
-        android:textColor="@color/text_primary"
-        android:layout_margin="5dp"/>
+        android:textColor="@color/text_primary"/>
 
         </LinearLayout>
 
@@ -66,9 +60,7 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_killServices"
         android:onClick="killServices"
-        android:background="@color/primary"
         android:textColor="@color/text_primary"
-        android:layout_margin="5dp"
         android:layout_gravity="center"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"/>

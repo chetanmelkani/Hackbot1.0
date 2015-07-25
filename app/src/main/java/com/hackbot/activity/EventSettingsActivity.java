@@ -1,12 +1,15 @@
 package com.hackbot.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -48,6 +51,17 @@ public class EventSettingsActivity extends Activity {
         this.dbh = DBHelper.getInstance(this);
         startService();
         addListenerOnButton();
+
+        new AlertDialog.Builder(this)
+                .setTitle(Html.fromHtml("<font color='#2196F3'>Hello</font>"))
+                .setMessage("Hi! There, HackBot is your personal assistant, which will learn your activities and replicate them. "
+                        + "Just get ready for a hassle free experience by selecting the checkboxes and press start.")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .show();
 
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
