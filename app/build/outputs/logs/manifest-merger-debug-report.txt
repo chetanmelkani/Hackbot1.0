@@ -81,42 +81,6 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:31:17
 	android:name
 		ADDED from AndroidManifest.xml:31:27
-receiver#com.hackbot.services.EventBroadcastAudioReceiver
-ADDED from AndroidManifest.xml:35:9
-	android:enabled
-		ADDED from AndroidManifest.xml:37:13
-	android:name
-		ADDED from AndroidManifest.xml:36:13
-intent-filter#android.media.RINGER_MODE_CHANGED
-ADDED from AndroidManifest.xml:38:13
-action#android.media.RINGER_MODE_CHANGED
-ADDED from AndroidManifest.xml:39:17
-	android:name
-		ADDED from AndroidManifest.xml:39:25
-receiver#com.hackbot.services.EventBroadcastDataReceiver
-ADDED from AndroidManifest.xml:42:9
-	android:enabled
-		ADDED from AndroidManifest.xml:44:13
-	android:name
-		ADDED from AndroidManifest.xml:43:13
-intent-filter#android.net.conn.CONNECTIVITY_CHANGE
-ADDED from AndroidManifest.xml:45:9
-action#android.net.conn.CONNECTIVITY_CHANGE
-ADDED from AndroidManifest.xml:46:17
-	android:name
-		ADDED from AndroidManifest.xml:46:25
-receiver#com.hackbot.services.EventBroadcastBluetoothReceiver
-ADDED from AndroidManifest.xml:49:3
-	android:enabled
-		ADDED from AndroidManifest.xml:51:13
-	android:name
-		ADDED from AndroidManifest.xml:50:13
-intent-filter#android.bluetooth.adapter.action.STATE_CHANGED
-ADDED from AndroidManifest.xml:52:13
-action#android.bluetooth.adapter.action.STATE_CHANGED
-ADDED from AndroidManifest.xml:53:17
-	android:name
-		ADDED from AndroidManifest.xml:53:25
 service#com.hackbot.services.EventListenerService
 ADDED from AndroidManifest.xml:57:9
 	android:name

@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
 
-        <receiver
+<!--        <receiver
             android:name="com.hackbot.services.EventBroadcastAudioReceiver"
             android:enabled="true" >
             <intent-filter>
@@ -52,7 +52,7 @@
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
             </intent-filter>            
-        </receiver>
+        </receiver>-->
 
         <service android:name="com.hackbot.services.EventListenerService" />
         <service android:name="com.hackbot.services.ActionService" />

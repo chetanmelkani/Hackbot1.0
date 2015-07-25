@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hackbot.R;
@@ -22,7 +21,6 @@ import com.hackbot.businessLogic.Algo;
 import com.hackbot.dao.DBHelper;
 import com.hackbot.entity.EventIdConstant;
 import com.hackbot.entity.Events;
-import com.hackbot.entity.HackBotEvent;
 import com.hackbot.services.ActionService;
 import com.hackbot.services.EventListenerService;
 
@@ -75,7 +73,7 @@ public class EventSettingsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d(LOG, "start button pressed");
-                List<Events> eventList = new ArrayList<Events>();
+                List<Events> eventList = new ArrayList<>();
 
                 //Audio checkbox
                 int isAudioChecked = 0;
@@ -84,6 +82,7 @@ public class EventSettingsActivity extends Activity {
                     isAudioChecked = 1;
                     eventList.add(new Events(EventIdConstant.AUDIO_ON, "AUDIO_ON", isAudioChecked));
                 } else {
+                    Log.d(LOG, "in chkAudio not checked");
                     eventList.add(new Events(EventIdConstant.AUDIO_OFF, "AUDIO_OFF", isAudioChecked));
                 }
 
@@ -94,6 +93,7 @@ public class EventSettingsActivity extends Activity {
                     is3GChecked = 1;
                     eventList.add(new Events(EventIdConstant.DATA_ON, "3G_ON", is3GChecked));
                 } else {
+                    Log.d(LOG, "in is3GChecked not checked");
                     eventList.add(new Events(EventIdConstant.DATA_OFF, "3G_OFF", is3GChecked));
                 }
 
@@ -104,6 +104,7 @@ public class EventSettingsActivity extends Activity {
                     isBluetoothChecked = 1;
                     eventList.add(new Events(EventIdConstant.BLUETOOTH_ON, "BLUETOOTH_ON", isBluetoothChecked));
                 } else {
+                    Log.d(LOG, "in isBluetoothChecked not checked");
                     eventList.add(new Events(EventIdConstant.BLUETOOTH_OFF, "BLUETOOTH_OFF", isBluetoothChecked));
                 }
 
@@ -194,9 +195,9 @@ public class EventSettingsActivity extends Activity {
         //This will enable to change the settings
         Log.d(LOG, "in changeSettings");
         //this is making the dummy calls for now
-        TextView eventId = (TextView) findViewById(R.id.eventId);
+        /*TextView eventId = (TextView) findViewById(R.id.eventId);
         TextView time = (TextView) findViewById(R.id.time);
-        TextView value = (TextView) findViewById(R.id.value);
+        TextView value = (TextView) findViewById(R.id.value);*/
 
      //   int eventIdInteger = Integer.parseInt(eventId.getText().toString());
      //   long timeLong = Long.parseLong(time.getText().toString());
@@ -209,7 +210,6 @@ public class EventSettingsActivity extends Activity {
         calendar.setTime(new Date());
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE) + 2;
-        int seconds = calendar.get(Calendar.SECOND);
 
         long timeLong = (1436121000000L + (hours * 60 * 60 + minutes * 60) * 1000 );         //6th July Monday 00:00 AM
         int eventIdInteger = 5;

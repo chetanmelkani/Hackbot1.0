@@ -20,23 +20,26 @@ public class EventBroadcastBluetoothReceiver extends BroadcastReceiver
 	public void onReceive(Context context, Intent intent)
 	{
 		Log.d(LOG, "in onReceive");
-		algo=new Algo(context.getApplicationContext());
-		if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED))
-        {
-        	
-        	if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)
-        		    == BluetoothAdapter.STATE_OFF)
-        	{
-				Log.d(LOG, "bluetooth state is off");
-        		performOperation(Enums.EventIdConstant.BLUETOOTH_ON, 0);
-        	}
-        	else if(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) 
-        		    == BluetoothAdapter.STATE_ON)
-        	{
-				Log.d(LOG, "bluetooth state is on");
-        		performOperation(Enums.EventIdConstant.BLUETOOTH_ON, 1);
-        	}
 
+        if(isInitialStickyBroadcast()){
+            Log.d(LOG, "in onReceive, this is a sticky broadcast, ignoring...");
+        }
+        else {
+            Log.d(LOG, "in onReceive, not a sticky broadcast, processing...");
+            algo = new Algo(context.getApplicationContext());
+            if (intent.getAction().equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+
+                if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)
+                        == BluetoothAdapter.STATE_OFF) {
+                    Log.d(LOG, "bluetooth state is off");
+                    performOperation(Enums.EventIdConstant.BLUETOOTH_ON, 0);
+                } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)
+                        == BluetoothAdapter.STATE_ON) {
+                    Log.d(LOG, "bluetooth state is on");
+                    performOperation(Enums.EventIdConstant.BLUETOOTH_ON, 1);
+                }
+
+            }
         }
 		
 	}

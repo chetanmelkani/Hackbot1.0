@@ -32,27 +32,29 @@
             </intent-filter>
         </activity>
 
-        <receiver
+        <!--
+            <receiver
             android:name="com.hackbot.services.EventBroadcastAudioReceiver"
             android:enabled="true" >
             <intent-filter>
                 <action android:name="android.media.RINGER_MODE_CHANGED" />
-            </intent-filter>
+            </intent-filter>            
         </receiver>
         <receiver
             android:name="com.hackbot.services.EventBroadcastDataReceiver"
             android:enabled="true" >
-            <intent-filter>
+        <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver>
-        <receiver
+		</receiver>
+		<receiver
             android:name="com.hackbot.services.EventBroadcastBluetoothReceiver"
             android:enabled="true" >
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-            </intent-filter>
+            </intent-filter>            
         </receiver>
+        -->
 
         <service android:name="com.hackbot.services.EventListenerService" />
         <service android:name="com.hackbot.services.ActionService" />

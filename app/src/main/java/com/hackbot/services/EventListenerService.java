@@ -1,10 +1,10 @@
 package com.hackbot.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.hackbot.businessLogic.Algo;
-import com.hackbot.dao.DBHelper;
 import com.hackbot.entity.EventIdConstant;
 import com.hackbot.entity.Events;
 import com.hackbot.utility.Enums;
@@ -27,10 +27,9 @@ public class EventListenerService extends Service {
 	EventBroadcastDataReceiver receiverData;
 	EventBroadcastBluetoothReceiver receiverBluetooth;
 
-	private static List<BroadcastReceiver> receivers = new ArrayList<BroadcastReceiver>();
+	private static List<BroadcastReceiver> receivers = new ArrayList<>();
 	private Algo algo ;
 	
-	private DBHelper dbHelper;
 	private final static String LOG = "HackBot"+EventListenerService.class.getSimpleName();
 
 	//This binds the client to the service
@@ -57,7 +56,6 @@ public class EventListenerService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(LOG, "in onCreate");
-		dbHelper= DBHelper.getInstance(this);
 	}
 
 	@Override
@@ -91,11 +89,13 @@ public class EventListenerService extends Service {
 		for (Events event : events)
 		{
 			Log.d(LOG, "Event Id got :"+event.getId());
+			Log.d(LOG, "the receivers array : " + Arrays.toString(receivers.toArray()));
 			switch(event.getId())
 			{
 			case EventIdConstant.AUDIO_ON:
 				if (!(receivers.contains(receiverAudio)))
 				{
+					Log.d(LOG, "AUDIO_ON");
 					IntentFilter filter=new IntentFilter();
 					filter.addAction(AudioManager.RINGER_MODE_CHANGED_ACTION);
 					registerReceiver(receiverAudio, filter);
@@ -105,6 +105,7 @@ public class EventListenerService extends Service {
 			case EventIdConstant.AUDIO_OFF:
 				if (receivers.contains(receiverAudio))
 				{
+					Log.d(LOG, "AUDIO_OFF");
 					unregisterReceiver(receiverAudio);
 					handleUnregisterOperation(event.getId());
 					receivers.remove(receiverAudio);
@@ -113,6 +114,7 @@ public class EventListenerService extends Service {
 			case 3:
 				if (!(receivers.contains(receiverData)))
 				{
+					Log.d(LOG, "DATA_ON");
 					IntentFilter filter2=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 					registerReceiver(receiverData, filter2);
 					receivers.add(receiverData);
@@ -121,6 +123,7 @@ public class EventListenerService extends Service {
 			case 4:
 				if (receivers.contains(receiverData))
 				{
+					Log.d(LOG, "DATA_OFF");
 					unregisterReceiver(receiverData);
 					handleUnregisterOperation(event.getId());
 					receivers.remove(receiverData);
@@ -129,6 +132,7 @@ public class EventListenerService extends Service {
 			case 5:	
 				if (!(receivers.contains(receiverBluetooth)))
 				{
+					Log.d(LOG, "BLUETOOTH_ON");
 					IntentFilter filter3=new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
 					registerReceiver(receiverBluetooth, filter3);
 					receivers.add(receiverBluetooth);
@@ -137,6 +141,7 @@ public class EventListenerService extends Service {
 			case 6:
 				if (receivers.contains(receiverBluetooth))
 				{
+					Log.d(LOG, "BLUETOOTH_OFF");
 					unregisterReceiver(receiverBluetooth);
 					handleUnregisterOperation(event.getId());
 					receivers.remove(receiverBluetooth);

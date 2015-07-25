@@ -25,28 +25,35 @@ public class EventBroadcastAudioReceiver extends BroadcastReceiver {
     public void onReceive(Context ctx, Intent intent) {
         Log.d(LOG, "in onReceive");
 
-        algo = new Algo(ctx.getApplicationContext());
-        Toast.makeText(ctx, "Started", Toast.LENGTH_SHORT).show();
-
-        if (intent.getAction().equals(AudioManager.RINGER_MODE_CHANGED_ACTION)) {
-            AudioManager am = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
-
-
-            switch (am.getRingerMode()) {
-                case AudioManager.RINGER_MODE_SILENT:
-                    Log.d(LOG, "Silent mode");
-                    performOperation(Enums.EventIdConstant.AUDIO_ON, 0);
-                    break;
-                case AudioManager.RINGER_MODE_VIBRATE:
-                    Log.d(LOG, "Vibrate mode");
-                    break;
-                case AudioManager.RINGER_MODE_NORMAL:
-                    Log.d(LOG, "Normal mode");
-                    performOperation(Enums.EventIdConstant.AUDIO_ON, 1);
-                    break;
-            }
-            Log.d(LOG, "Phone audio mode changed");
+        if(isInitialStickyBroadcast()){
+            Log.d(LOG, "in onReceive, this is a sticky broadcast, ignoring...");
         }
+        else{
+            Log.d(LOG, "in onReceive, not a sticky broadcast, processing...");
+            algo = new Algo(ctx.getApplicationContext());
+            Toast.makeText(ctx, "Started", Toast.LENGTH_SHORT).show();
+
+            if (intent.getAction().equals(AudioManager.RINGER_MODE_CHANGED_ACTION)) {
+                AudioManager am = (AudioManager) ctx.getSystemService(Context.AUDIO_SERVICE);
+
+                switch (am.getRingerMode()) {
+                    case AudioManager.RINGER_MODE_SILENT:
+                        Log.d(LOG, "Silent mode");
+                        performOperation(Enums.EventIdConstant.AUDIO_ON, 0);
+                        break;
+                    case AudioManager.RINGER_MODE_VIBRATE:
+                        Log.d(LOG, "Vibrate mode");
+                        break;
+                    case AudioManager.RINGER_MODE_NORMAL:
+                        Log.d(LOG, "Normal mode");
+                        performOperation(Enums.EventIdConstant.AUDIO_ON, 1);
+                        break;
+                }
+                Log.d(LOG, "Phone audio mode changed");
+            }
+        }
+
+
         
         	
  
