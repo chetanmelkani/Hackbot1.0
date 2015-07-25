@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="accent">#00E676</color>
+    <color name="photo_tint">#88101010</color>
+    <color name="primary">#2196F3</color>
+    <color name="primary_dark">#1976D2</color>
+    <color name="text_primary">#D9FFFFFF</color>
+    <color name="text_secondary">#D9000000</color>
     <!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="app_name">MyAndroidApp</string>
+    <string name="app_name">HackBot</string>
     <string name="btn_changeSettings">Save Data</string>
     <string name="btn_cleanSlate">Clean Slate</string>
+    <string name="btn_killServices">Kill Services</string>
     <string name="btn_ok">Start</string>
     <string name="chk_3G">3G</string>
     <string name="chk_Audio">Audio</string>
     <string name="chk_Bluetooth">Bluetooth</string>
     <string name="hello">Hello World, MyAndroidAppActivity!</string>
+    <!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="android:colorPrimary">@color/primary</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/accent</item>
+    </style>
 </resources>

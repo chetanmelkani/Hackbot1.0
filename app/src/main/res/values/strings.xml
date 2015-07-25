@@ -2,13 +2,14 @@
 <resources>
 
      <string name="hello">Hello World, MyAndroidAppActivity!</string>
-    <string name="app_name">MyAndroidApp</string>
+    <string name="app_name">HackBot</string>
     <string name="chk_Audio">Audio</string>
     <string name="chk_3G">3G</string>
     <string name="chk_Bluetooth">Bluetooth</string>
     <string name="btn_ok">Start</string>
     <string name="btn_cleanSlate">Clean Slate</string>
     <string name="btn_changeSettings">Save Data</string>
+    <string name="btn_killServices">Kill Services</string>
 
 
 </resources>

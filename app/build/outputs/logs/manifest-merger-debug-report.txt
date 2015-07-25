@@ -45,16 +45,6 @@ uses-permission#android.permission.BLUETOOTH_ADMIN
 ADDED from AndroidManifest.xml:14:5
 	android:name
 		ADDED from AndroidManifest.xml:14:22
-uses-sdk
-ADDED from AndroidManifest.xml:16:5
-	android:targetSdkVersion
-		ADDED from AndroidManifest.xml:18:9
-		INJECTED from AndroidManifest.xml:0:0
-		INJECTED from AndroidManifest.xml:0:0
-	android:minSdkVersion
-		ADDED from AndroidManifest.xml:17:9
-		INJECTED from AndroidManifest.xml:0:0
-		INJECTED from AndroidManifest.xml:0:0
 application
 ADDED from AndroidManifest.xml:20:5
 	android:label
@@ -89,3 +79,11 @@ service#com.hackbot.services.ActionService
 ADDED from AndroidManifest.xml:58:9
 	android:name
 		ADDED from AndroidManifest.xml:58:18
+uses-sdk
+INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
+	android:targetSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0

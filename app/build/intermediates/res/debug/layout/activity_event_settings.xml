@@ -9,15 +9,11 @@
         android:layout_height="wrap_content"
         android:text="@string/chk_Audio"/>
 
-
     <CheckBox
         android:id="@+id/chk3G"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/chk_3G"
-        android:checked="true" />
-
-
+        android:text="@string/chk_3G"/>
 
     <CheckBox
         android:id="@+id/chkBluetooth"
@@ -25,57 +21,57 @@
         android:layout_height="wrap_content"
         android:text="@string/chk_Bluetooth" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <Button
         android:id="@+id/btnDisplay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="@string/btn_ok" />
-
+        android:text="@string/btn_ok"
+        android:background="@color/primary"
+        android:textColor="@color/text_primary"
+        android:layout_margin="5dp"/>
 
     <Button
         android:id="@+id/buttonCleanSlate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="@string/btn_cleanSlate"
-        android:onClick="cleanSlate"/>
+        android:onClick="cleanSlate"
+        android:background="@color/primary"
+        android:textColor="@color/text_primary"
+        android:layout_margin="5dp"/>
 
     <Button
         android:id="@+id/buttonChangeSettings"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="@string/btn_changeSettings"
-        android:onClick="changeSettings"/>
+        android:onClick="changeSettings"
+        android:background="@color/primary"
+        android:textColor="@color/text_primary"
+        android:layout_margin="5dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        </LinearLayout>
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/eventId"
-            android:hint="Event Id"
-            android:inputType="number"/>
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/time"
-            android:hint="Time"
-            android:inputType="number"/>
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:id="@+id/value"
-            android:hint="Value"
-            android:inputType="number"/>
-    </LinearLayout>
+    <Button
+        android:id="@+id/killServices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_killServices"
+        android:onClick="killServices"
+        android:background="@color/primary"
+        android:textColor="@color/text_primary"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"/>
 
 </LinearLayout>
 <!-- From: file:/Users/chetanmelkani/Git/Hackbot/app/src/main/res/layout/activity_event_settings.xml -->

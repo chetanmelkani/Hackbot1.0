@@ -257,6 +257,10 @@ public class EventSettingsActivity extends Activity {
 
     }
 
+    public void killServices(View view) {
+        Log.d(LOG, "in killServices");
+        //this will remove the entire DB, will stop all the services and unlearn all the learned events.
+    }
 }
 
 
