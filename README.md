@@ -22,4 +22,5 @@ HackBot is designed to make your life easier by automating your tasks and increa
 As the user moves from one place to other such as from home to office, or from work to a meeting, the user changes the settings. The application will acknowledge the changes and sets itself accordingly.
 It learns and unlearns from user's daily activities and automatically triggers these without any manual intervention. Also if your routine changes, it acknowledges it and adjusts its actions. It can be used to remind the user of his habits if it is skipped.
 
+See the HackBot 1.0.png for the current UI.
 
